@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>io.swagger</groupId>
-    <artifactId>swagger-spring</artifactId>
+    <groupId>io.pestakit</groupId>
+    <artifactId>microserve-users</artifactId>
     <packaging>jar</packaging>
     <name>swagger-spring</name>
     <version>1.0.0</version>
@@ -49,10 +49,10 @@
                                 <useBeanValidation>true</useBeanValidation>
                                 <interfaceOnly>true</interfaceOnly>
                                 <delegatePattern>false</delegatePattern>
-                                <apiPackage>io.avalia.fruits.api</apiPackage>
-                                <configPackage>io.avalia.fruits.config</configPackage>
-                                <basePackage>io.avalia.fruits</basePackage>
-                                <modelPackage>io.avalia.fruits.api.model</modelPackage>
+                                <apiPackage>io.pestakit.users.api</apiPackage>
+                                <configPackage>io.pestakit.users.config</configPackage>
+                                <basePackage>io.pestakit.users</basePackage>
+                                <modelPackage>io.pestakit.users.api.model</modelPackage>
                             </configOptions>
                         </configuration>
                     </execution>

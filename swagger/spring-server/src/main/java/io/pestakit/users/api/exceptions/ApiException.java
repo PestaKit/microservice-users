@@ -1,4 +1,4 @@
-package io.avalia.fruits.api.exceptions;
+package io.pestakit.users.api.exceptions;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-07-26T19:36:34.802Z")
 

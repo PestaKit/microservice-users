@@ -1,4 +1,4 @@
-package io.avalia.fruits;
+package io.pestakit.users;
 
 import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 import com.fasterxml.jackson.databind.util.ISO8601Utils;

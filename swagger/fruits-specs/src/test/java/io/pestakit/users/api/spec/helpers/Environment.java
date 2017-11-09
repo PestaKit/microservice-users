@@ -1,4 +1,4 @@
-package io.avalia.fruits.api.spec.helpers;
+package io.pestakit.users.api.spec.helpers;
 
 import io.avalia.fruits.api.DefaultApi;
 

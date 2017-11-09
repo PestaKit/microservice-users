@@ -1,4 +1,4 @@
-package io.avalia.fruits.api.spec;
+package io.pestakit.users.api.spec;
 
 import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;

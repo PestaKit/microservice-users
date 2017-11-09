@@ -1,4 +1,4 @@
-package io.avalia.fruits.api.util;
+package io.pestakit.users.api.util;
 
 import javax.xml.bind.annotation.XmlTransient;
 

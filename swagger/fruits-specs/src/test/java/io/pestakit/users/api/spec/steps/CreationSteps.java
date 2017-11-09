@@ -1,6 +1,5 @@
-package io.avalia.fruits.api.spec.steps;
+package io.pestakit.users.api.spec.steps;
 
-import cucumber.api.PendingException;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -8,7 +7,7 @@ import io.avalia.fruits.ApiException;
 import io.avalia.fruits.ApiResponse;
 import io.avalia.fruits.api.DefaultApi;
 import io.avalia.fruits.api.dto.Fruit;
-import io.avalia.fruits.api.spec.helpers.Environment;
+import io.pestakit.users.api.spec.helpers.Environment;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
