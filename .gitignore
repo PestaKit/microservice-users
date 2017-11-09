@@ -24,5 +24,4 @@ hs_err_pid*
 
 .idea/
 swagger/spring-server/microserve-users.iml
-swagger/users-specs/src/main/java/
 swagger/users-specs/usersSpecification.iml
