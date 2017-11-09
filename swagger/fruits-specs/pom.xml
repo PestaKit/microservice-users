@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>io.avalia</groupId>
-  <artifactId>fruitsSpecification</artifactId>
+  <groupId>io.pestakit</groupId>
+  <artifactId>usersSpecification</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
   <properties>
@@ -43,8 +43,8 @@
               <library>okhttp-gson</library>
               <configOptions>
                 <sourceFolder>.</sourceFolder>
-                <modelPackage>io.avalia.fruits.api.dto</modelPackage>
-                <apiPackage>io.avalia.fruits.api</apiPackage>
+                <modelPackage>io.pestakit.users.api.dto</modelPackage>
+                <apiPackage>io.pestakit.users.api</apiPackage>
               </configOptions>
               <output>target/generated-sources/swagger</output>
             </configuration>
@@ -129,6 +129,11 @@
       <groupId>io.swagger</groupId>
       <artifactId>swagger-annotations</artifactId>
       <version>${swagger-core-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.pestakit</groupId>
+      <artifactId>microserve-users</artifactId>
+      <version>1.0.0</version>
     </dependency>
 
   </dependencies>
