@@ -1,9 +1,9 @@
-package io.avalia.fruits.api.endpoints;
+package io.pestakit.users.api.endpoints;
 
-import io.avalia.fruits.api.FruitsApi;
-import io.avalia.fruits.entities.FruitEntity;
-import io.avalia.fruits.api.model.Fruit;
-import io.avalia.fruits.repositories.FruitRepository;
+import io.pestakit.users.api.FruitsApi;
+import io.pestakit.users.entities.FruitEntity;
+import io.pestakit.users.api.model.Fruit;
+import io.pestakit.users.repositories.FruitRepository;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -55,19 +55,21 @@ public class FruitsApiController implements FruitsApi {
 
 
     private FruitEntity toFruitEntity(Fruit fruit) {
-        FruitEntity entity = new FruitEntity();
+        /*FruitEntity entity = new FruitEntity();
         entity.setColour(fruit.getColour());
         entity.setKind(fruit.getKind());
         entity.setSize(fruit.getSize());
-        return entity;
+        return entity;*/
+        return null;
     }
 
     private Fruit toFruit(FruitEntity entity) {
-        Fruit fruit = new Fruit();
+        /*Fruit fruit = new Fruit();
         fruit.setColour(entity.getColour());
         fruit.setKind(entity.getKind());
         fruit.setSize(entity.getSize());
-        return fruit;
+        return fruit;*/
+        return null;
     }
 
 }
