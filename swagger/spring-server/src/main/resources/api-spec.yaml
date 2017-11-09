@@ -1,0 +1,51 @@
+swagger: '2.0'
+info:
+  version: '0.1.0'
+  title: Fruits API
+  description: An API to demonstrate Swagger and Spring Boot
+host: localhost:8080
+basePath: /api
+schemes:
+  - http
+paths:
+  /fruits:
+    post:
+      description: create a fruit
+      operationId: createFruit
+      consumes:
+        - application/json
+      parameters:
+        - name: fruit
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Fruit'
+      responses:
+        '201':
+          description: created
+          schema:
+            type: object
+    get:
+      description: get the list of all fruits
+      operationId: getFruits
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Fruit'
+definitions:
+  Fruit:
+    type: object
+    properties:
+      kind:
+        type: string
+      colour:
+        type: string
+      size:
+        type: string
+      weight:
+        type: string
