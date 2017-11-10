@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  roach-one:
+    image: cockroachdb/cockroach:v1.1.2
+    command: start --insecure
+    ports:
+      - 8080:8080
+      - 26257:26257
+    networks:
+      - roachnet
+  roach-two:
+    image: cockroachdb/cockroach:v1.1.2
+    command: start --insecure --join=roach-one
+    networks:
+      - roachnet
+  roach-three:
+    image: cockroachdb/cockroach:v1.1.2
+    command: start --insecure --join=roach-one
+    networks:
+      - roachnet
+  init-data:
+    image: jbergknoff/postgresql-client:latest
+    command: -p 26257 -h roach-one -U root -f /tmp/data/database.sql
+    volumes:
+      - ./data:/tmp/data
+    networks:
+      - roachnet
+    depends_on:
+      - roach-one
+
+networks:
+  roachnet:
