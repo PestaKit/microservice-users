@@ -55,21 +55,21 @@ public class FruitsApiController implements FruitsApi {
 
 
     private FruitEntity toFruitEntity(Fruit fruit) {
-        /*FruitEntity entity = new FruitEntity();
+        FruitEntity entity = new FruitEntity();
         entity.setColour(fruit.getColour());
         entity.setKind(fruit.getKind());
         entity.setSize(fruit.getSize());
-        return entity;*/
-        return null;
+        return entity;
+//        return null;
     }
 
     private Fruit toFruit(FruitEntity entity) {
-        /*Fruit fruit = new Fruit();
+        Fruit fruit = new Fruit();
         fruit.setColour(entity.getColour());
         fruit.setKind(entity.getKind());
         fruit.setSize(entity.getSize());
-        return fruit;*/
-        return null;
+        return fruit;
+//        return null;
     }
 
 }

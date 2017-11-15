@@ -1,8 +1,8 @@
 swagger: '2.0'
 info:
   version: '0.1.0'
-  title: my simple api
-  description: An API to demonstrate Swagger
+  title: User API
+  description: An API managing users and teams
 host: localhost:8080
 basePath: /api
 schemes:
@@ -37,6 +37,38 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Fruit'
+  /users:
+    post:
+      description: create a user
+      operationId: createUser
+      consumes:
+        - application/json
+      parameters:
+        - name: user
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '201':
+          description: created
+          schema:
+            type: object
+    get:
+      description: get the list of all users
+      operationId: getUsers
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/User'
+
+
+
 definitions:
   Fruit:
     type: object
@@ -46,4 +78,21 @@ definitions:
       colour:
         type: string
       size:
+        type: string
+      weight:
+        type: string
+  User:
+    type: object
+    properties:
+      username:
+        type: string
+      email:
+        type: string
+      password:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      displayName:
         type: string
