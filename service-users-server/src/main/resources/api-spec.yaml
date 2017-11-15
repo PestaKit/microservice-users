@@ -81,6 +81,8 @@ definitions:
         type: string
       weight:
         type: string
+      claude:
+        type: string
   User:
     type: object
     properties:
