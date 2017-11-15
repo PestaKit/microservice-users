@@ -11,6 +11,9 @@ import io.pestakit.users.api.dto.Fruit;
 import io.pestakit.users.api.dto.User;
 import io.pestakit.users.api.spec.helpers.Environment;
 
+import java.util.List;
+import java.util.Map;
+
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
 
@@ -102,8 +105,16 @@ public class CreationSteps {
         user.setDisplayName("display"+name);
     }
 
-    @Given("^the DB is reseted$")
-    public void theDBIsReseted() throws Throwable {
 
+    @Then("^I receive an endpoint to the user$")
+    public void iReceiveAnEndpointToTheUser() throws Throwable {
+        Map<String,List<String>> headers = lastApiResponse.getHeaders();
+
+        List<String> locationList = headers.get("Location");
+        if(locationList != null){
+            String location = locationList.get(0);
+            assertNotNull(location);
+            assert(location.matches(".*/api/users/\\d+$"));
+        }
     }
 }
