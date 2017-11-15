@@ -5,7 +5,7 @@ services:
     image: cockroachdb/cockroach:v1.1.2
     command: start --insecure
     ports:
-      - 8080:8080
+      - 9090:8080
       - 26257:26257
     networks:
       - roachnet
@@ -21,9 +21,7 @@ services:
       - roachnet
   init-data:
     image: jbergknoff/postgresql-client:latest
-    command: -p 26257 -h roach-one -U root -f /tmp/data/database.sql
-    volumes:
-      - ./data:/tmp/data
+    command: -p 26257 -h roach-one -U root -c 'CREATE DATABASE "users-service"'
     networks:
       - roachnet
     depends_on:
