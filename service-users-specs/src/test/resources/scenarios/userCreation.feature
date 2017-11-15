@@ -8,10 +8,15 @@ Feature: user creation
     When I POST it to the /users endpoint
     Then I receive a 201 status code
 
-    Scenario: cannot create twice the same user
-      Given I have a user named Johny payload
-      When I POST it to the /users endpoint
-      Then I receive a 201 status code
-      When I POST it to the /users endpoint
-      Then I receive a 500 status code
+  Scenario: cannot create twice the same user
+    Given I have a user named Johny payload
+    When I POST it to the /users endpoint
+    Then I receive a 201 status code
+    When I POST it to the /users endpoint
+    Then I receive a 500 status code
+
+  Scenario: create two users with capitalized username
+    Given I have a user named Johny payload
+    When I POST it to the /users endpoint
+    Then I receive a 201 status code
 
