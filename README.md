@@ -10,4 +10,4 @@ Simply run `docker-compose up -d` in the `topology` folder to start the database
 
 To stop the database run `docker-compose down`.
 
-Once deployed the database is available on port `26257` and the Cockroach console on port `8080`.
+Once deployed the database is available on port `26257` and the Cockroach console on port `9090`.
