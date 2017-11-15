@@ -101,4 +101,9 @@ public class CreationSteps {
         user.setLastName("last"+name);
         user.setDisplayName("display"+name);
     }
+
+    @Given("^the DB is reseted$")
+    public void theDBIsReseted() throws Throwable {
+
+    }
 }
