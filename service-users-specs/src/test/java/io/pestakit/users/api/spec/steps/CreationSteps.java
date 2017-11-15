@@ -3,10 +3,10 @@ package io.pestakit.users.api.spec.steps;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import io.avalia.fruits.ApiException;
-import io.avalia.fruits.ApiResponse;
-import io.avalia.fruits.api.DefaultApi;
-import io.avalia.fruits.api.dto.Fruit;
+import io.pestakit.users.ApiException;
+import io.pestakit.users.ApiResponse;
+import io.pestakit.users.api.DefaultApi;
+import io.pestakit.users.api.dto.Fruit;
 import io.pestakit.users.api.spec.helpers.Environment;
 
 import static org.junit.Assert.assertNotNull;
@@ -39,7 +39,7 @@ public class CreationSteps {
 
     @Given("^I have a fruit payload$")
     public void i_have_a_fruit_payload() throws Throwable {
-        fruit = new io.avalia.fruits.api.dto.Fruit();
+        fruit = new io.pestakit.users.api.dto.Fruit();
     }
 
     @When("^I POST it to the /fruits endpoint$")
