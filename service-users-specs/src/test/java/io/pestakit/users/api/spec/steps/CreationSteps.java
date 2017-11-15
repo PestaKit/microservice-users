@@ -1,5 +1,6 @@
 package io.pestakit.users.api.spec.steps;
 
+import cucumber.api.PendingException;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -67,11 +68,7 @@ public class CreationSteps {
 
     @Given("^I have a user payload$")
     public void iHaveAUserPayload() throws Throwable {
-        user = new User();
-        user.username("johno");
-        user.password("johno");
-        user.setEmail("john@o.johno");
-
+        iHaveAUserNamedPayload("john");
     }
 
     @Given("^there is a User and Team Server$")
@@ -94,4 +91,14 @@ public class CreationSteps {
         }
     }
 
+    @Given("^I have a user named (\\w+) payload$")
+    public void iHaveAUserNamedPayload(String name) throws Throwable {
+        user = new User();
+        user.username("user"+name);
+        user.password("pass"+name);
+        user.setEmail(name+"@"+name+".com");
+        user.setFirstName("first"+name);
+        user.setLastName("last"+name);
+        user.setDisplayName("display"+name);
+    }
 }
