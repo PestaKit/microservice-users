@@ -33,7 +33,7 @@ public class UserApiController implements UsersApi {
             if(userEntity.getUsername().compareToIgnoreCase(user.getUsername()) == 0 ||
                     userEntity.getEmail().compareToIgnoreCase(user.getEmail()) == 0){
                 //can't create the object
-                return ResponseEntity.status(500).build();
+                return ResponseEntity.status(403).build();
 
             }
         }
@@ -41,7 +41,7 @@ public class UserApiController implements UsersApi {
         //if there is no username, email or password we can't create object
         if(user.getUsername().isEmpty() ||
                 user.getEmail().isEmpty() || user.getPassword().isEmpty()){
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.status(422).build();
         }
 
         //we find all character which are not alphanumeric or - and _
@@ -50,7 +50,7 @@ public class UserApiController implements UsersApi {
         boolean found = matcher.find();
         //if there is special character we can't create the object
         if(found){
-            return ResponseEntity.status(500).build();
+            return ResponseEntity.status(422).build();
         }
 
         //for user of heig-vd (firstname.lastname@heig-vd)
@@ -63,7 +63,7 @@ public class UserApiController implements UsersApi {
 
         //if there is not @ character in email we can't create object
         if (!user.getEmail().contains("@")){
-            return ResponseEntity.status(500).build();
+            return ResponseEntity.status(422).build();
         }
 
         //if all condition is plain we can now create the object
