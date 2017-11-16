@@ -72,16 +72,16 @@ paths:
       description: get a specific User
       operationId: getUser
       parameters:
-        - in: path
-          name: userID
+        - name: userID
+          in: path
           type: integer
           format: int64
           required: true
-          description: Get the user according its id
+          description: Get the user according his id
+          schema:
+            type: integer
       produces:
         - application/json
-      items:
-        $ref: '#/definitions/User'
       responses:
         '200':
           description: success
