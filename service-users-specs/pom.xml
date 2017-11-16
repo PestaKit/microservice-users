@@ -15,7 +15,7 @@
     <jodatime-version>2.9.4</jodatime-version>
     <okhttp-version>2.7.5</okhttp-version>
     <gson-version>2.6.2</gson-version>
-    <io.avalia.fruits.server.url>http://localhost:8080/api/</io.avalia.fruits.server.url>
+    <io.pestakit.users.server.url>http://localhost:8080/api/</io.pestakit.users.server.url>
   </properties>
   <build>
     <testResources>

@@ -1,21 +1,19 @@
 package io.pestakit.users.api.spec.steps;
 
-import cucumber.api.PendingException;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import io.pestakit.users.ApiException;
 import io.pestakit.users.ApiResponse;
 import io.pestakit.users.api.DefaultApi;
-import io.pestakit.users.api.dto.Fruit;
 import io.pestakit.users.api.dto.User;
 import io.pestakit.users.api.spec.helpers.Environment;
 
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Created by Olivier Liechti on 27/07/17.
@@ -25,7 +23,6 @@ public class CreationSteps {
     protected Environment environment;
     protected DefaultApi api;
 
-    Fruit fruit;
     User user;
 
     protected ApiResponse lastApiResponse;
@@ -36,32 +33,6 @@ public class CreationSteps {
     public CreationSteps(Environment environment) {
         this.environment = environment;
         this.api = environment.getApi();
-    }
-
-    @Given("^there is a Fruits server$")
-    public void there_is_a_Fruits_server() throws Throwable {
-        assertNotNull(api);
-    }
-
-    @Given("^I have a fruit payload$")
-    public void i_have_a_fruit_payload() throws Throwable {
-        fruit = new io.pestakit.users.api.dto.Fruit();
-    }
-
-    @When("^I POST it to the /fruits endpoint$")
-    public void i_POST_it_to_the_fruits_endpoint() throws Throwable {
-        try {
-            lastApiResponse = api.createFruitWithHttpInfo(fruit);
-            lastApiCallThrewException = false;
-            lastApiException = null;
-            lastStatusCode = lastApiResponse.getStatusCode();
-        } catch (ApiException e) {
-            lastApiCallThrewException = true;
-            lastApiResponse = null;
-            lastApiException = e;
-            lastStatusCode = lastApiException.getCode();
-        }
-
     }
 
     @Then("^I receive a (\\d+) status code$")
@@ -104,7 +75,6 @@ public class CreationSteps {
         user.setLastName("last"+name);
         user.setDisplayName("display"+name);
     }
-
 
     @Then("^I receive an endpoint to the user$")
     public void iReceiveAnEndpointToTheUser() throws Throwable {
