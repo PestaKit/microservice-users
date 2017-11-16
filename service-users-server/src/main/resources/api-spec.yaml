@@ -67,6 +67,26 @@ paths:
             items:
               $ref: '#/definitions/User'
 
+  /user/{id}:
+    get:
+      description: get a specific User
+      operationId: getUser
+        parameters:
+        - name: id
+          in: path
+          type: long
+          description: user id
+          required: true
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: success
+          schema:
+            type: object
+            items:
+              $ref: '#/definitions/User'
+
 
 
 definitions:
