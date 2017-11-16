@@ -90,6 +90,9 @@ public class UserApiController implements UsersApi {
 
     public ResponseEntity<User> getUser(long id) {
         UserEntity userEntity = userRepository.findOne(id);
+        if (userEntity == null) {
+            return ResponseEntity.status(404).build();
+        }
         User user = toUser(userEntity);
 
         return ResponseEntity.ok(user);
