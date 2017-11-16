@@ -1,4 +1,4 @@
-package api;
+package io.pestakit.users.api.spec.steps;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 import cucumber.api.PendingException;
@@ -43,11 +43,6 @@ public class RetrivalDefinition
     private int lastStatusCode;
     */
 
-    @Given("^There is an API server$")
-    public void thereIsAFruitsServer() throws Throwable
-    {
-        assertNotNull(wireMockServer);
-    }
 
     @Given("^I have an user with id=(\\d+)$")
     public void iHaveAnUserWithId(int id) throws Throwable
@@ -55,40 +50,34 @@ public class RetrivalDefinition
         this.id = id;
     }
 
-    @When("^I POST it to the /user endpoint$")
-    public void iPOSTItToTheUserEndpoint() throws Throwable
-    {
-        wireMockServer.start();
-
-        configureFor("localhost", 8080);
-
-        if(id == 999)
-        {
-            stubFor(post(urlEqualTo("/user")).willReturn(aResponse().withStatus(404)));
-        }
-        else
-        {
-            stubFor(post(urlEqualTo("/user")).willReturn(aResponse().withStatus(200)));
-        }
-
-        HttpPost request = new HttpPost("http://localhost:8080/user");
-
-        request.addHeader("Content-Type", APPLICATION_JSON);
-
-        List<NameValuePair> nvps = new ArrayList<NameValuePair>();
-        nvps.add(new BasicNameValuePair("id", "" + id));
-        nvps.add(new BasicNameValuePair("password", "secret"));
-
-        request.setEntity(new UrlEncodedFormEntity(nvps));
-
-        response = httpClient.execute(request);
-
-        wireMockServer.stop();
-    }
-
-    @Then("^I receive a (\\d+) status code$")
-    public void iReceiveAStatusCode(int code) throws Throwable
-    {
-        assertEquals(code, response.getStatusLine().getStatusCode());
-    }
+//    @When("^I POST it to the /user endpoint$")
+//    public void iPOSTItToTheUserEndpoint() throws Throwable
+//    {
+//        wireMockServer.start();
+//
+//        configureFor("localhost", 8080);
+//
+//        if(id == 999)
+//        {
+//            stubFor(post(urlEqualTo("/user")).willReturn(aResponse().withStatus(404)));
+//        }
+//        else
+//        {
+//            stubFor(post(urlEqualTo("/user")).willReturn(aResponse().withStatus(200)));
+//        }
+//
+//        HttpPost request = new HttpPost("http://localhost:8080/user");
+//
+//        request.addHeader("Content-Type", APPLICATION_JSON);
+//
+//        List<NameValuePair> nvps = new ArrayList<NameValuePair>();
+//        nvps.add(new BasicNameValuePair("id", "" + id));
+//        nvps.add(new BasicNameValuePair("password", "secret"));
+//
+//        request.setEntity(new UrlEncodedFormEntity(nvps));
+//
+//        response = httpClient.execute(request);
+//
+//        wireMockServer.stop();
+//    }
 }
