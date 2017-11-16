@@ -13,7 +13,7 @@ Feature: user creation
     When I POST it to the /users endpoint
     Then I receive a 201 status code
     When I POST it to the /users endpoint
-    Then I receive a 500 status code
+    Then I receive a 403 status code
 
   Scenario: create two users with capitalized username
     Given I have a user named George payload
@@ -21,7 +21,7 @@ Feature: user creation
     Then I receive a 201 status code
     Given I have a user named george payload
     When I POST it to the /users endpoint
-    Then I receive a 500 status code
+    Then I receive a 403 status code
 
   Scenario: user endpoint given after creation
     Given I have a user named Alfred payload
@@ -31,4 +31,4 @@ Feature: user creation
 
   Scenario: cannot create user containing illegal chars
     Given I have a user named d/a payload
-    Then I receive a 500 status code
+    Then I receive a 422 status code
