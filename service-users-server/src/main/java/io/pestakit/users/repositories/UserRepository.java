@@ -1,6 +1,5 @@
 package io.pestakit.users.repositories;
 
-import io.pestakit.users.entities.FruitEntity;
 import io.pestakit.users.entities.UserEntity;
 import org.springframework.data.repository.CrudRepository;
 
