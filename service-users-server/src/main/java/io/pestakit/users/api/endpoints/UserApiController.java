@@ -72,7 +72,7 @@ public class UserApiController implements UsersApi {
         Long id = newUserEntity.getId();
 
         URI location = ServletUriComponentsBuilder
-                .fromCurrentRequest().path("/{id}")
+                .fromCurrentRequest().path("/{userID}")
                 .buildAndExpand(newUserEntity.getId()).toUri();
 
         return ResponseEntity.created(location).build();
@@ -88,8 +88,9 @@ public class UserApiController implements UsersApi {
         return ResponseEntity.ok(users);
     }
 
-    public ResponseEntity<User> getUser(long id) {
-        UserEntity userEntity = userRepository.findOne(id);
+
+    public ResponseEntity<User> getUser(Long userID) {
+        UserEntity userEntity = userRepository.findOne(userID);
         if (userEntity == null) {
             return ResponseEntity.status(404).build();
         }
@@ -97,7 +98,6 @@ public class UserApiController implements UsersApi {
 
         return ResponseEntity.ok(user);
     }
-
 
     private UserEntity toUserEntity(User user) {
         UserEntity ue = new UserEntity();
