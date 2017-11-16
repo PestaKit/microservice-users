@@ -14,6 +14,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Controller
 public class UserApiController implements UsersApi {
@@ -25,6 +27,46 @@ public class UserApiController implements UsersApi {
 
     @Override
     public ResponseEntity<Object> createUser(@ApiParam(value = "", required = true) @RequestBody User user) {
+
+        for (UserEntity userEntity : userRepository.findAll()) {
+            //if the ressource already exist
+            if(userEntity.getUsername().compareToIgnoreCase(user.getUsername()) == 0 ||
+                    userEntity.getEmail().compareToIgnoreCase(user.getEmail()) == 0){
+                //can't create the object
+                return ResponseEntity.status(500).build();
+
+            }
+        }
+
+        //if there is no username, email or password we can't create object
+        if(user.getUsername().isEmpty() ||
+                user.getEmail().isEmpty() || user.getPassword().isEmpty()){
+            return ResponseEntity.badRequest().build();
+        }
+
+        //we find all character which are not alphanumeric or - and _
+        Pattern badPattern = Pattern.compile("[^a-zA-Z0-9] && [^-_]");
+        Matcher matcher = badPattern.matcher(user.getUsername());
+        boolean found = matcher.find();
+        //if there is special character we can't create the object
+        if(found){
+            return ResponseEntity.status(500).build();
+        }
+
+        //for user of heig-vd (firstname.lastname@heig-vd)
+        /*Pattern emailPattern = Pattern.compile("(.*)\\.(.*)@");
+        matcher = emailPattern.matcher(user.getEmail());
+        found = matcher.find();
+        if(!found){
+            return ResponseEntity.badRequest().build();
+        }*/
+
+        //if there is not @ character in email we can't create object
+        if (!user.getEmail().contains("@")){
+            return ResponseEntity.status(500).build();
+        }
+
+        //if all condition is plain we can now create the object
         UserEntity newUserEntity = toUserEntity(user);
         userRepository.save(newUserEntity);
         Long id = newUserEntity.getId();
