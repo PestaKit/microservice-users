@@ -10,8 +10,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.constraints.NotNull;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -103,9 +105,9 @@ public class UserApiController implements UsersApi {
     }
 
     @Override
-    public ResponseEntity<User> getUser(@ApiParam(value = "user's id",required=true )
-                                            @PathVariable("username") String username) {
-        List<User> users = new ArrayList<>();
+    public ResponseEntity<User> getUser( @NotNull @ApiParam(value = "user's id", required = true)
+                                  @RequestParam(value = "username", required = true) String username) {
+    List<User> users = new ArrayList<>();
         for (UserEntity userEntity : userRepository.findAll()) {
             if (userEntity.getUsername().equals(username)) {
                 return ResponseEntity.ok(toUser(userEntity));

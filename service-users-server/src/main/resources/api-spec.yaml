@@ -59,14 +59,13 @@ paths:
           schema:
             $ref: '#/definitions/User'
 
-  /users/{username}:
+  /users/get:
     get:
       description: get a specific User with his username
       operationId: getUser
       parameters:
         - name: username
-          in: path
-          type: string
+          in: query
           required: true
           description: user's id
           schema:
