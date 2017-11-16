@@ -102,6 +102,19 @@ public class UserApiController implements UsersApi {
         return ResponseEntity.ok(user);
     }
 
+    @Override
+    public ResponseEntity<User> getUser(@ApiParam(value = "user's id",required=true )
+                                            @PathVariable("username") String username) {
+        List<User> users = new ArrayList<>();
+        for (UserEntity userEntity : userRepository.findAll()) {
+            if (userEntity.getUsername().equals(username)) {
+                return ResponseEntity.ok(toUser(userEntity));
+            }
+            users.add(toUser(userEntity));
+        }
+        return ResponseEntity.status(404).build();
+    }
+
     private UserEntity toUserEntity(User user) {
         UserEntity ue = new UserEntity();
         ue.setUsername(user.getUsername());
