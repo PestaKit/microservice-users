@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -89,7 +90,9 @@ public class UserApiController implements UsersApi {
     }
 
 
-    public ResponseEntity<User> getUser(Long userID) {
+    @Override
+     public ResponseEntity<User> getUser(@ApiParam(value = "Get the user according his id",required=true )
+                                             @PathVariable("userID") Long userID) {
         UserEntity userEntity = userRepository.findOne(userID);
         if (userEntity == null) {
             return ResponseEntity.status(404).build();
