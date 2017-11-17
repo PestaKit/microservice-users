@@ -94,8 +94,8 @@ public class UserApiController implements UsersApi {
 
     @Override
      public ResponseEntity<User> getUser(@ApiParam(value = "user's id",required=true )
-                                             @PathVariable("id") Long userID) {
-        UserEntity userEntity = userRepository.findOne(userID);
+                                             @PathVariable("id") Long id) {
+        UserEntity userEntity = userRepository.findOne(id);
         if (userEntity == null) {
             return ResponseEntity.status(404).build();
         }
