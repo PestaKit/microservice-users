@@ -18,8 +18,6 @@ import javax.validation.constraints.NotNull;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Controller
 public class UserApiController implements UsersApi {
@@ -40,28 +38,6 @@ public class UserApiController implements UsersApi {
                 return ResponseEntity.status(403).build();
 
             }
-        }
-
-        //we find all character which are not alphanumeric or - and _
-        Pattern badPattern = Pattern.compile("[^a-zA-Z0-9] && [^-_]");
-        Matcher matcher = badPattern.matcher(user.getUsername());
-        boolean found = matcher.find();
-        //if there is special character we can't create the object
-        if(found){
-            return ResponseEntity.status(422).build();
-        }
-
-        //for user of heig-vd (firstname.lastname@heig-vd)
-        /*Pattern emailPattern = Pattern.compile("(.*)\\.(.*)@");
-        matcher = emailPattern.matcher(user.getEmail());
-        found = matcher.find();
-        if(!found){
-            return ResponseEntity.badRequest().build();
-        }*/
-
-        //if there is not @ character in email we can't create object
-        if (!user.getEmail().contains("@")){
-            return ResponseEntity.status(422).build();
         }
 
         //if all condition is plain we can now create the object
