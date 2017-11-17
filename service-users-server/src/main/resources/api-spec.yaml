@@ -22,9 +22,13 @@ paths:
             $ref: '#/definitions/User'
       responses:
         '201':
-          description: created
+          description: Created
           schema:
             type: object
+        '400':
+          description: Bad request
+          schema:
+            type: string
     get:
       description: get the list of all users
       operationId: getUsers
@@ -88,6 +92,7 @@ definitions:
         type: string
       email:
         type: string
+        format: email
       password:
         type: string
       firstName:
@@ -96,4 +101,8 @@ definitions:
         type: string
       displayName:
         type: string
+    required:
+        - username
+        - email
+        - password
 

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.net.URI;
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ public class UserApiController implements UsersApi {
 
 
     @Override
-    public ResponseEntity<Object> createUser(@ApiParam(value = "", required = true) @RequestBody User user) {
+    public ResponseEntity<Object> createUser(@ApiParam(value = "", required = true) @Valid @RequestBody User user) {
 
         for (UserEntity userEntity : userRepository.findAll()) {
             //if the ressource already exist
@@ -39,12 +40,6 @@ public class UserApiController implements UsersApi {
                 return ResponseEntity.status(403).build();
 
             }
-        }
-
-        //if there is no username, email or password we can't create object
-        if(user.getUsername().isEmpty() ||
-                user.getEmail().isEmpty() || user.getPassword().isEmpty()){
-            return ResponseEntity.status(422).build();
         }
 
         //we find all character which are not alphanumeric or - and _
@@ -92,7 +87,7 @@ public class UserApiController implements UsersApi {
     }
 
 
-    @Override
+
      public ResponseEntity<User> getUser(@ApiParam(value = "user's id",required=true )
                                              @PathVariable("id") Long id) {
         UserEntity userEntity = userRepository.findOne(id);
@@ -104,7 +99,7 @@ public class UserApiController implements UsersApi {
         return ResponseEntity.ok(user);
     }
 
-    @Override
+
     public ResponseEntity<User> getUser( @NotNull @ApiParam(value = "user's username", required = true)
                                   @RequestParam(value = "username", required = true) String username) {
     List<User> users = new ArrayList<>();
