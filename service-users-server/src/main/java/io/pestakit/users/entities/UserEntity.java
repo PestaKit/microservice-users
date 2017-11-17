@@ -1,6 +1,7 @@
 package io.pestakit.users.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -13,10 +14,13 @@ public class UserEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @NotNull
     @Column(nullable = false, unique = true)
     private String username;
+    @NotNull
     @Column(nullable = false, unique = true)
     private String email;
+    @NotNull
     @Column(nullable = false)
     private String password;
     private String firstName;
