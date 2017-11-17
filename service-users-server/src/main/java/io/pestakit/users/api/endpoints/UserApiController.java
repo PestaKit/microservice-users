@@ -75,7 +75,7 @@ public class UserApiController implements UsersApi {
         Long id = newUserEntity.getId();
 
         URI location = ServletUriComponentsBuilder
-                .fromCurrentRequest().path("/{userID}")
+                .fromCurrentRequest().path("/{id}")
                 .buildAndExpand(newUserEntity.getId()).toUri();
 
         return ResponseEntity.created(location).build();
@@ -93,8 +93,8 @@ public class UserApiController implements UsersApi {
 
 
     @Override
-     public ResponseEntity<User> getUser(@ApiParam(value = "Get the user according his id",required=true )
-                                             @PathVariable("userID") Long userID) {
+     public ResponseEntity<User> getUser(@ApiParam(value = "user's id",required=true )
+                                             @PathVariable("id") Long userID) {
         UserEntity userEntity = userRepository.findOne(userID);
         if (userEntity == null) {
             return ResponseEntity.status(404).build();
@@ -105,7 +105,7 @@ public class UserApiController implements UsersApi {
     }
 
     @Override
-    public ResponseEntity<User> getUser( @NotNull @ApiParam(value = "user's id", required = true)
+    public ResponseEntity<User> getUser( @NotNull @ApiParam(value = "user's username", required = true)
                                   @RequestParam(value = "username", required = true) String username) {
     List<User> users = new ArrayList<>();
         for (UserEntity userEntity : userRepository.findAll()) {

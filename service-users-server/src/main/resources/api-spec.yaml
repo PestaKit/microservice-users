@@ -38,17 +38,17 @@ paths:
             items:
               $ref: '#/definitions/User'
 
-  /users/{userID}:
+  /users/{id}:
     get:
       description: get a specific User
       operationId: getUser
       parameters:
-        - name: userID
+        - name: id
           in: path
           type: integer
           format: int64
           required: true
-          description: Get the user according his id
+          description: user's id
           schema:
             type: integer
       produces:
@@ -67,7 +67,7 @@ paths:
         - name: username
           in: query
           required: true
-          description: user's id
+          description: user's username
           schema:
             type: string
       produces:
