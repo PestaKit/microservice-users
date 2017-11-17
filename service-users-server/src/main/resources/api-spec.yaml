@@ -90,11 +90,14 @@ definitions:
     properties:
       username:
         type: string
+        minLength: 4
+        pattern: '^[a-zA-Z0-9._-]*$'
       email:
         type: string
-        format: email
+        pattern: '^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
       password:
         type: string
+        minLength: 6
       firstName:
         type: string
       lastName:
