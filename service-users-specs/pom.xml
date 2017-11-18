@@ -135,6 +135,17 @@
       <artifactId>microserve-users</artifactId>
       <version>1.0.0</version>
     </dependency>
-
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpcore</artifactId>
+      <version>4.0.1</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.github.tomakehurst</groupId>
+      <artifactId>wiremock</artifactId>
+      <version>2.11.0</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 </project>
