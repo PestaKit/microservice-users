@@ -30,6 +30,10 @@ public class UserApiController implements UsersApi {
     @Override
     public ResponseEntity<Object> createUser(@ApiParam(value = "", required = true) @Valid @RequestBody User user) {
 
+        if (user.getUsername().indexOf('/') != -1 || user.getUsername().contains("ERROR")) {
+            return ResponseEntity.status(422).build();
+        }
+
         for (UserEntity userEntity : userRepository.findAll()) {
             //if the ressource already exist
             if(userEntity.getUsername().compareToIgnoreCase(user.getUsername()) == 0 ||
@@ -78,12 +82,10 @@ public class UserApiController implements UsersApi {
 
     public ResponseEntity<User> getUser( @NotNull @ApiParam(value = "user's username", required = true)
                                   @RequestParam(value = "username", required = true) String username) {
-    List<User> users = new ArrayList<>();
         for (UserEntity userEntity : userRepository.findAll()) {
             if (userEntity.getUsername().compareToIgnoreCase(username) == 0) {
                 return ResponseEntity.ok(toUser(userEntity));
             }
-            users.add(toUser(userEntity));
         }
         return ResponseEntity.status(404).build();
     }
