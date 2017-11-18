@@ -80,7 +80,7 @@ public class UserApiController implements UsersApi {
                                   @RequestParam(value = "username", required = true) String username) {
     List<User> users = new ArrayList<>();
         for (UserEntity userEntity : userRepository.findAll()) {
-            if (userEntity.getUsername().equals(username)) {
+            if (userEntity.getUsername().compareToIgnoreCase(username) == 0) {
                 return ResponseEntity.ok(toUser(userEntity));
             }
             users.add(toUser(userEntity));
