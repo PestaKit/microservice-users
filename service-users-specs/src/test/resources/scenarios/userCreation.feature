@@ -31,4 +31,5 @@ Feature: user creation
 
   Scenario: cannot create user containing illegal chars
     Given I have a user named d/a payload
+    When I POST it to the /users endpoint
     Then I receive a 422 status code

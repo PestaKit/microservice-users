@@ -79,8 +79,11 @@ public class UsersSteps {
         }
     }
 
-    @Given("^I have a user named (\\w+) payload$")
+    @Given("^I have a user named (.*?) payload$")
     public void iHaveAUserNamedPayload(String name) throws Throwable {
+        if (name.indexOf('/') != -1) {
+            name = "ERROR";
+        }
         user = new User();
         user.username("user"+name);
         user.password("pass"+name);
@@ -88,6 +91,7 @@ public class UsersSteps {
         user.setFirstName("first"+name);
         user.setLastName("last"+name);
         user.setDisplayName("display"+name);
+
     }
 
     @Then("^I receive an endpoint to the user$")
