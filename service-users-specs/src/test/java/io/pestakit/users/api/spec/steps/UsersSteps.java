@@ -1,5 +1,6 @@
 package io.pestakit.users.api.spec.steps;
 
+import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -10,6 +11,7 @@ import io.pestakit.users.api.DefaultApi;
 import io.pestakit.users.api.dto.User;
 import io.pestakit.users.api.spec.helpers.Environment;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +24,7 @@ public class UsersSteps {
     protected DefaultApi api;
 
     User user;
+    long uid;
     List<User> users;
 
     protected ApiResponse lastApiResponse;
@@ -79,11 +82,18 @@ public class UsersSteps {
         }
     }
 
-    @Given("^I have a user named (.*?) payload$")
+    @Given("^I have a user named (.+) payload$")
     public void iHaveAUserNamedPayload(String name) throws Throwable {
-        if (name.indexOf('/') != -1) {
-            name = "ERROR";
-        }
+        uid = new Date().getTime();
+        createUSerPayload(name);
+    }
+    @Given("^I have a user named (.+) payload with same uid$")
+    public void iHaveAUserNamedPayloadWithSameUid(String name) throws Throwable {
+        createUSerPayload(name);
+    }
+
+    private void createUSerPayload(String name){
+        name = uid + name;
         user = new User();
         user.username("user"+name);
         user.password("pass"+name);
@@ -162,4 +172,5 @@ public class UsersSteps {
         assertEquals(true, user.contains(this.user));
         assertEquals( this.user, user.get(0));
     }
+
 }

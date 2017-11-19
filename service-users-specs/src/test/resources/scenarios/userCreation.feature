@@ -19,7 +19,7 @@ Feature: user creation
     Given I have a user named George payload
     When I POST it to the /users endpoint
     Then I receive a 201 status code
-    Given I have a user named george payload
+    Given I have a user named george payload with same uid
     When I POST it to the /users endpoint
     Then I receive a 403 status code
 
