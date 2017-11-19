@@ -30,7 +30,7 @@ public class UserApiController implements UsersApi {
     @Override
     public ResponseEntity<Object> createUser(@ApiParam(value = "", required = true) @Valid @RequestBody User user) {
 
-        if (user.getUsername().indexOf('/') != -1 || user.getUsername().contains("ERROR")) {
+        if (!user.getUsername().matches("^[a-zA-Z0-9._-]+$")) {
             return ResponseEntity.status(422).build();
         }
 
