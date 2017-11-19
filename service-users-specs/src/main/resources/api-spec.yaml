@@ -22,9 +22,18 @@ paths:
             $ref: '#/definitions/User'
       responses:
         '201':
-          description: created
+          description: Created
           schema:
             type: object
+        '400':
+          description: Bad request
+          schema:
+            type: string
+        '422':
+          description: malformed user
+          schema:
+            type: string
+
     get:
       description: get the list of all users
       operationId: getUsers
@@ -86,13 +95,22 @@ definitions:
     properties:
       username:
         type: string
+        minLength: 4
+        pattern: '^[a-zA-Z0-9._-]+$'
       email:
         type: string
+        pattern: '^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
       password:
         type: string
+        minLength: 6
       firstName:
         type: string
       lastName:
         type: string
       displayName:
         type: string
+    required:
+        - username
+        - email
+        - password
+

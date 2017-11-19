@@ -29,6 +29,11 @@ paths:
           description: Bad request
           schema:
             type: string
+        '422':
+          description: malformed user
+          schema:
+            type: string
+
     get:
       description: get the list of all users
       operationId: getUsers
@@ -91,7 +96,7 @@ definitions:
       username:
         type: string
         minLength: 4
-        pattern: '^[a-zA-Z0-9._-]*$'
+        pattern: '^[a-zA-Z0-9._-]+$'
       email:
         type: string
         pattern: '^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
