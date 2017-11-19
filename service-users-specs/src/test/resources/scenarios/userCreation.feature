@@ -27,7 +27,7 @@ Feature: user creation
     Given I have a user named Alfred payload
     When I POST it to the /users endpoint
     Then I receive a 201 status code
-    Then I receive an endpoint to the user
+    Then I receive an endpoint to my user payload
 
   Scenario: cannot create user containing illegal chars
     Given I have a user named d/a payload
