@@ -14,6 +14,8 @@ import io.pestakit.users.api.spec.helpers.Environment;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -104,18 +106,6 @@ public class UsersSteps {
 
     }
 
-    @Then("^I receive an endpoint to the user$")
-    public void iReceiveAnEndpointToTheUser() throws Throwable {
-        Map<String,List<String>> headers = lastApiResponse.getHeaders();
-
-        List<String> locationList = headers.get("Location");
-        if(locationList != null){
-            String location = locationList.get(0);
-            assertNotNull(location);
-            assert(location.matches(".*/api/users/\\d+$"));
-        }
-    }
-
     /* User Retrival  */
 
     @And ("^the response is a list containing (\\d+) users$")
@@ -173,4 +163,21 @@ public class UsersSteps {
         assertEquals( this.user, user.get(0));
     }
 
+    @Then("^I receive an endpoint to my user payload$")
+    public void iReceiveAnEndpointToMyUserPayload() throws Throwable {
+        Map<String,List<String>> headers = lastApiResponse.getHeaders();
+
+        List<String> locationList = headers.get("Location");
+        if(locationList != null){
+            String location = locationList.get(0);
+            assertNotNull(location);
+            Pattern p = Pattern.compile(".*/api/users/(\\d+)$");
+            Matcher m = p.matcher(location);
+            assert (m.find());
+
+            long getId = Long.parseLong(m.group(1));
+            User getUser = api.getUser_0(getId);
+            assertEquals(user,getUser);
+        }
+    }
 }
