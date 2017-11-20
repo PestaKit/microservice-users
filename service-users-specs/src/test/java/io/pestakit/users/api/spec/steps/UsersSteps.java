@@ -108,24 +108,13 @@ public class UsersSteps {
 
     /* User Retrival  */
 
-    @And ("^the response is a list containing (\\d+) users$")
+    @And ("^the response is a list containing at least (\\d+) users$")
     public void theResponseIsAListContainingUsers(int nb) throws Throwable
     {
         users = (List<User>)lastApiResponse.getData();
 
         assertNotNull(users);
-        assertEquals(nb, users.size());
-    }
-
-    @And("^one user has the following attributes:$")
-    public void oneUserHasTheFollowingAttributes(List<User> users) throws Throwable
-    {
-        assertNotNull(users);
-
-        for (User user: users)
-        {
-            assertEquals(true, this.users.contains(user));
-        }
+        assert(nb <= users.size());
     }
 
     @When("^I GET the user with the username (\\w+)$")
@@ -133,7 +122,7 @@ public class UsersSteps {
     {
         try
         {
-            lastApiResponse = api.getUserWithHttpInfo(username);
+            lastApiResponse = api.getUserWithHttpInfo("user" + uid + username);
             lastApiCallThrewException = false;
             lastApiException = null;
             lastStatusCode = lastApiResponse.getStatusCode();
@@ -155,13 +144,6 @@ public class UsersSteps {
         assertNotNull(user);
     }
 
-    @And("^the user has the following atttributes:$")
-    public void theUserHasTheFollowingAtttributes(List<User> user) throws Throwable
-    {
-        assertEquals(1, user.size());
-        assertEquals(true, user.contains(this.user));
-        assertEquals( this.user, user.get(0));
-    }
 
     @Then("^I receive an endpoint to my user payload$")
     public void iReceiveAnEndpointToMyUserPayload() throws Throwable {
