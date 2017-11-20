@@ -34,14 +34,11 @@ public class UserApiController implements UsersApi {
             return ResponseEntity.status(422).build();
         }
 
-        for (UserEntity userEntity : userRepository.findAll()) {
-            //if the ressource already exist
-            if(userEntity.getUsername().compareToIgnoreCase(user.getUsername()) == 0 ||
-                    userEntity.getEmail().compareToIgnoreCase(user.getEmail()) == 0){
-                //can't create the object
-                return ResponseEntity.status(403).build();
-
-            }
+        //if the ressource already exist
+        UserEntity userEntity = userRepository.findByUsernameIgnoreCase(user.getUsername());
+        if (userEntity != null) {
+            //can't create the object
+            return ResponseEntity.status(403).build();
         }
 
         //if all condition is plain we can now create the object
