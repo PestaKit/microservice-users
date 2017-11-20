@@ -30,10 +30,6 @@ public class UserApiController implements UsersApi {
     @Override
     public ResponseEntity<Object> createUser(@ApiParam(value = "", required = true) @Valid @RequestBody User user) {
 
-        if (!user.getUsername().matches("^[a-zA-Z0-9._-]+$")) {
-            return ResponseEntity.status(422).build();
-        }
-
         //if the ressource already exist
         UserEntity userEntity = userRepository.findByUsernameIgnoreCase(user.getUsername());
         if (userEntity != null) {
