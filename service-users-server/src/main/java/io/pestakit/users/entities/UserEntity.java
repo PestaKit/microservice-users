@@ -1,5 +1,8 @@
 package io.pestakit.users.entities;
 
+import de.mkammerer.argon2.Argon2;
+import de.mkammerer.argon2.Argon2Factory;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -49,7 +52,11 @@ public class UserEntity implements Serializable {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        Argon2 argon2 = Argon2Factory.create();
+
+        // Hash password
+        String hash = argon2.hash(2, 65536, 1, password);
+        this.password = hash;
     }
 
     public String getFirstName() {
