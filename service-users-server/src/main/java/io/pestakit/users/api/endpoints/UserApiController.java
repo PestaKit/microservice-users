@@ -6,6 +6,7 @@ import io.pestakit.users.entities.UserEntity;
 import io.pestakit.users.repositories.UserRepository;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,13 +29,13 @@ public class UserApiController implements UsersApi {
 
 
     @Override
-    public ResponseEntity<Object> createUser(@ApiParam(value = "", required = true) @Valid @RequestBody User user) {
+    public ResponseEntity<Void> createUser(@ApiParam(value = "", required = true) @Valid @RequestBody User user) {
 
         //if the ressource already exist
         UserEntity userEntity = userRepository.findByUsernameIgnoreCase(user.getUsername());
         if (userEntity != null) {
             //can't create the object
-            return ResponseEntity.status(403).build();
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
         //if all condition is plain we can now create the object
@@ -59,19 +60,16 @@ public class UserApiController implements UsersApi {
         return ResponseEntity.ok(users);
     }
 
-
-
      public ResponseEntity<User> getUser(@ApiParam(value = "user's id",required=true )
                                              @PathVariable("id") Long id) {
         UserEntity userEntity = userRepository.findOne(id);
         if (userEntity == null) {
-            return ResponseEntity.status(404).build();
+            return ResponseEntity.notFound().build();
         }
         User user = toUser(userEntity);
 
         return ResponseEntity.ok(user);
     }
-
 
     public ResponseEntity<User> getUser( @NotNull @ApiParam(value = "user's username", required = true)
                                   @RequestParam(value = "username", required = true) String username) {
@@ -80,7 +78,7 @@ public class UserApiController implements UsersApi {
                 return ResponseEntity.ok(toUser(userEntity));
             }
         }
-        return ResponseEntity.status(404).build();
+        return ResponseEntity.notFound().build();
     }
 
     private UserEntity toUserEntity(User user) {
