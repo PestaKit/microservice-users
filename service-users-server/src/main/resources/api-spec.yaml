@@ -23,16 +23,10 @@ paths:
       responses:
         '201':
           description: Created
-          schema:
-            type: object
         '400':
           description: Bad request
-          schema:
-            type: string
         '422':
-          description: malformed user
-          schema:
-            type: string
+          description: Malformed user
 
     get:
       description: get the list of all users
@@ -87,7 +81,25 @@ paths:
           schema:
             $ref: '#/definitions/User'
 
-
+  /auth:
+    post:
+      description: Athentificate an user
+      operationId: auth
+      consumes:
+        - application/json
+      parameters:
+        - name: auth
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Credentials'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/Token'
 
 definitions:
   User:
@@ -114,3 +126,20 @@ definitions:
         - email
         - password
 
+  Credentials:
+    type: object
+    properties:
+      identifier:
+        type: string
+        description: 'username or email'
+      password:
+        type: string
+    required:
+        - identifier
+        - password
+
+  Token:
+      type: object
+      properties:
+        token:
+          type: string

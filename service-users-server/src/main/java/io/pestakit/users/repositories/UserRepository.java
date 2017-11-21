@@ -5,4 +5,5 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface UserRepository extends CrudRepository<UserEntity, Long> {
     UserEntity findByUsernameIgnoreCase(String username);
+    UserEntity findByUsernameIgnoreCaseOrEmailIgnoreCase(String username, String email);
 }
