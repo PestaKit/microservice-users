@@ -4,6 +4,8 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import de.mkammerer.argon2.Argon2;
+import de.mkammerer.argon2.Argon2Factory;
 import io.pestakit.users.ApiException;
 import io.pestakit.users.ApiResponse;
 import io.pestakit.users.api.DefaultApi;
@@ -160,6 +162,10 @@ public class UsersSteps {
 
             long getId = Long.parseLong(m.group(1));
             User getUser = api.getUser_0(getId);
+
+            Argon2 argon = Argon2Factory.create();
+            assert(argon.verify(getUser.getPassword(),user.getPassword()));
+            user.setPassword(getUser.getPassword());
             assertEquals(user,getUser);
         }
     }
