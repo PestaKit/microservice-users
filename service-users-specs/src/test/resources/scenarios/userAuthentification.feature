@@ -35,19 +35,5 @@ Feature: user Authentification
     Given I have it credential payload using wrongpassword
     When I POST it credential to the /login endpoint
     Then I receive a 401 status code
-    
-      Scenario: GET Method
-    When I GET the /auth endpoint
-    Then I receive a 405 status code
 
-  Scenario: POST Method - INVALID
-    Given a username test with password test
-    When I POST the credentials to the /auth endpoint
-    Then I receive a 401 status code
-
-  Scenario: POST Method - VALID
-    Given a username test with password test
-    When I POST the credentials to the /auth endpoint
-    Then I receive a 200 status code
-    And the response contains a token
     
