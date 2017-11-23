@@ -9,7 +9,7 @@ Feature: user Authentification
     Then I receive a 201 status code
     Given I have it credential payload using username
     When I POST it credential to the /login endpoint
-    Then I receive a 201 status code
+    Then I receive a 200 status code
 
   Scenario: authenticate user with email
     Given I have a user named Antoine payload
@@ -17,7 +17,7 @@ Feature: user Authentification
     Then I receive a 201 status code
     Given I have it credential payload using email
     When I POST it credential to the /login endpoint
-    Then I receive a 201 status code
+    Then I receive a 200 status code
 
 
   Scenario: cannot authenticate non-existant user
