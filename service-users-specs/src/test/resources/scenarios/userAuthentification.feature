@@ -43,7 +43,7 @@ Feature: user Authentification
   Scenario: POST Method - INVALID
     Given a username test with password test
     When I POST the credentials to the /auth endpoint
-    Then I receive a 404 status code
+    Then I receive a 401 status code
 
   Scenario: POST Method - VALID
     Given a username test with password test
