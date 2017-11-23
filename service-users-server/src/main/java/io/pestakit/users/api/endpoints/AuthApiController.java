@@ -5,6 +5,7 @@ import de.mkammerer.argon2.Argon2Factory;
 import io.pestakit.users.api.AuthApi;
 import io.pestakit.users.api.model.Credentials;
 import io.pestakit.users.api.model.Token;
+import io.pestakit.users.configuration.SessionManager;
 import io.pestakit.users.entities.UserEntity;
 import io.pestakit.users.repositories.UserRepository;
 import io.swagger.annotations.ApiParam;
@@ -15,10 +16,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.validation.Valid;
+import java.util.Date;
 
 @Controller
 public class AuthApiController implements AuthApi {
-
 
     @Autowired
     UserRepository userRepository;
@@ -37,7 +38,11 @@ public class AuthApiController implements AuthApi {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 
         Token response = new Token();
-        response.setToken(user.getUsername() + ":authenticated");
+
+        SessionManager sm = SessionManager.getInstance();
+        SessionManager.SessionPayload sp = new SessionManager.SessionPayload(user.getId());
+        response.setToken(sm.create(sp, new Date(2017, 12, 13)));
+
         return ResponseEntity.ok(response);
     }
 }
