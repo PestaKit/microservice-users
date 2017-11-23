@@ -1,6 +1,5 @@
 package io.pestakit.users.api.spec.steps;
 
-import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -8,6 +7,7 @@ import cucumber.api.java.en.When;
 import io.pestakit.users.ApiException;
 import io.pestakit.users.ApiResponse;
 import io.pestakit.users.api.DefaultApi;
+import io.pestakit.users.api.dto.Credentials;
 import io.pestakit.users.api.dto.User;
 import io.pestakit.users.api.spec.helpers.Environment;
 
@@ -26,6 +26,7 @@ public class UsersSteps {
     protected DefaultApi api;
 
     User user;
+    Credentials cred;
     long uid;
     List<User> users;
 
@@ -161,5 +162,37 @@ public class UsersSteps {
             User getUser = api.getUser_0(getId);
             assertEquals(user,getUser);
         }
+    }
+
+
+    @When("^I POST it credential to the /login endpoint$")
+    public void iPOSTItCredentialToTheLoginEndpoint() throws Throwable {
+        // Write code here that turns the phrase above into concrete actions
+
+        try {
+            lastApiResponse = api.authWithHttpInfo(cred);
+            lastApiCallThrewException = false;
+            lastApiException = null;
+            lastStatusCode = lastApiResponse.getStatusCode();
+        } catch (ApiException e) {
+            lastApiCallThrewException = true;
+            lastApiResponse = null;
+            lastApiException = e;
+            lastStatusCode = lastApiException.getCode();
+        }
+    }
+
+
+    @Given("^I have it credential payload using (.+)$")
+    public void iHaveItCredentialPayloadUsing(String identifier) throws Throwable {
+        // Write code here that turns the phrase above into concrete actions
+        cred = new Credentials();
+        if(identifier.equals("username")){
+            cred.setIdentifier(user.getUsername());
+        }else if(identifier.equals("email")){
+            cred.setIdentifier(user.getEmail());
+        }
+        cred.setPassword(user.getPassword());
+
     }
 }
