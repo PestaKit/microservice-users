@@ -205,4 +205,38 @@ public class UsersSteps {
             cred.setPassword(user.getPassword());
 
     }
+    
+        /* LOGIN */
+
+    @Given("^a username (\\w+) with password (\\w+)$")
+    public void aUsernameTestWithPasswordTest(String username, String password) throws Throwable {
+        credentials = new Credentials();
+        credentials.setIdentifier(username);
+        credentials.setPassword(password);
+    }
+
+    @When("^I POST the credentials to the /auth endpoint$")
+    public void iPOSTTheCredentialsToTheAuthEndpoint() throws Throwable {
+        try
+        {
+            lastApiResponse = api.authWithHttpInfo(credentials);
+            lastApiCallThrewException = false;
+            lastApiException = null;
+            lastStatusCode = lastApiResponse.getStatusCode();
+        }
+        catch (ApiException e)
+        {
+            lastApiCallThrewException = true;
+            lastApiResponse = null;
+            lastApiException = e;
+            lastStatusCode = lastApiException.getCode();
+        }
+    }
+
+    @And("^the response contains a token$")
+    public void theResponseContainsAToken() throws Throwable {
+        token = (Token) lastApiResponse.getData();
+
+        assertNotNull(token);
+    }
 }
