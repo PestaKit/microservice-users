@@ -172,24 +172,6 @@ public class UsersSteps {
     }
 
 
-    @When("^I POST it credential to the /login endpoint$")
-    public void iPOSTItCredentialToTheLoginEndpoint() throws Throwable {
-        // Write code here that turns the phrase above into concrete actions
-
-        try {
-            lastApiResponse = api.authWithHttpInfo(cred);
-            lastApiCallThrewException = false;
-            lastApiException = null;
-            lastStatusCode = lastApiResponse.getStatusCode();
-        } catch (ApiException e) {
-            lastApiCallThrewException = true;
-            lastApiResponse = null;
-            lastApiException = e;
-            lastStatusCode = lastApiException.getCode();
-        }
-    }
-
-
     @Given("^I have it credential payload using (.+)$")
     public void iHaveItCredentialPayloadUsing(String identifier) throws Throwable {
         // Write code here that turns the phrase above into concrete actions

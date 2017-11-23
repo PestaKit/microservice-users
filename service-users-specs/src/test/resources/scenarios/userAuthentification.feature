@@ -8,7 +8,7 @@ Feature: user Authentification
     When I POST it to the /users endpoint
     Then I receive a 201 status code
     Given I have it credential payload using username
-    When I POST it credential to the /login endpoint
+    When I POST it credential to the /auth endpoint
     Then I receive a 200 status code
 
   Scenario: authenticate user with email
@@ -16,7 +16,7 @@ Feature: user Authentification
     When I POST it to the /users endpoint
     Then I receive a 201 status code
     Given I have it credential payload using email
-    When I POST it credential to the /login endpoint
+    When I POST it credential to the /auth endpoint
     Then I receive a 200 status code
 
 
@@ -25,7 +25,7 @@ Feature: user Authentification
     When I GET the user with the username coucou
     Then I receive a 404 status code
     Given I have it credential payload using username
-    When I POST it credential to the /login endpoint
+    When I POST it credential to the /auth endpoint
     Then I receive a 401 status code
 
   Scenario: cannot authenticate user with wrong password
@@ -33,7 +33,7 @@ Feature: user Authentification
     When I POST it to the /users endpoint
     Then I receive a 201 status code
     Given I have it credential payload using wrongpassword
-    When I POST it credential to the /login endpoint
+    When I POST it credential to the /auth endpoint
     Then I receive a 401 status code
 
     
