@@ -1,4 +1,4 @@
-Feature: user Authentification
+Feature: user Authentication
 
   Background:
     Given there is a User and Team Server
