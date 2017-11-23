@@ -199,6 +199,7 @@ public class UsersSteps {
             cred.setIdentifier(user.getEmail());
         }
         if(identifier.equals("wrongpassword")){
+            cred.setIdentifier(user.getUsername());
             cred.setPassword("wrong");
         }else
             cred.setPassword(user.getPassword());
