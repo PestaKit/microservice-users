@@ -11,6 +11,7 @@ import io.pestakit.users.ApiResponse;
 import io.pestakit.users.api.DefaultApi;
 import io.pestakit.users.api.dto.Credentials;
 import io.pestakit.users.api.dto.User;
+import io.pestakit.users.api.dto.Token;
 import io.pestakit.users.api.spec.helpers.Environment;
 
 import java.util.Date;
@@ -219,7 +220,7 @@ public class UsersSteps {
     public void iPOSTTheCredentialsToTheAuthEndpoint() throws Throwable {
         try
         {
-            lastApiResponse = api.authWithHttpInfo(credentials);
+            lastApiResponse = api.authWithHttpInfo(cred);
             lastApiCallThrewException = false;
             lastApiException = null;
             lastStatusCode = lastApiResponse.getStatusCode();
@@ -235,7 +236,7 @@ public class UsersSteps {
 
     @And("^the response contains a token$")
     public void theResponseContainsAToken() throws Throwable {
-        token = (Token) lastApiResponse.getData();
+        Token token = (Token) lastApiResponse.getData();
 
         assertNotNull(token);
     }

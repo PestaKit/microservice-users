@@ -75,11 +75,11 @@ public class UserApiController implements UsersApi {
     @Override
     public ResponseEntity<User> getUser( @NotNull @ApiParam(value = "user's username", required = true)
                                   @RequestParam(value = "username", required = true) String username) {
-        for (UserEntity userEntity : userRepository.findAll()) {
-            if (userEntity.getUsername().compareToIgnoreCase(username) == 0) {
+        UserEntity userEntity = userRepository.findByUsernameIgnoreCase(username);
+        if (userEntity != null)  {
                 return ResponseEntity.ok(toUser(userEntity));
             }
-        }
+
         return ResponseEntity.notFound().build();
     }
 
