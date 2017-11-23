@@ -101,6 +101,20 @@ paths:
           schema:
             $ref: '#/definitions/Token'
 
+
+  /publicKey:
+    get:
+      description: get the public key
+      operationId: getPublicKey
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: success
+          schema:
+            $ref: '#/definitions/PublicKey'
+
+
 definitions:
   User:
     type: object
@@ -137,6 +151,21 @@ definitions:
     required:
         - identifier
         - password
+
+  PublicKey:
+    type: object
+    properties:
+      key:
+        type: string
+        description: "public key"
+      dateCreation:
+        type: string
+        format: date
+        description: "date of creation"
+      dateExpiration:
+        type: string
+        format: date
+        description: "date of expiration"
 
   Token:
       type: object

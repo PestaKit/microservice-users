@@ -60,6 +60,7 @@ public class UserApiController implements UsersApi {
         return ResponseEntity.ok(users);
     }
 
+    @Override
      public ResponseEntity<User> getUser(@ApiParam(value = "user's id",required=true )
                                              @PathVariable("id") Long id) {
         UserEntity userEntity = userRepository.findOne(id);
@@ -71,6 +72,7 @@ public class UserApiController implements UsersApi {
         return ResponseEntity.ok(user);
     }
 
+    @Override
     public ResponseEntity<User> getUser( @NotNull @ApiParam(value = "user's username", required = true)
                                   @RequestParam(value = "username", required = true) String username) {
         for (UserEntity userEntity : userRepository.findAll()) {

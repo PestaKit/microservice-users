@@ -23,16 +23,10 @@ paths:
       responses:
         '201':
           description: Created
-          schema:
-            type: object
         '400':
           description: Bad request
-          schema:
-            type: string
         '422':
-          description: malformed user
-          schema:
-            type: string
+          description: Malformed user
 
     get:
       description: get the list of all users
@@ -87,6 +81,38 @@ paths:
           schema:
             $ref: '#/definitions/User'
 
+  /auth:
+    post:
+      description: Athentificate an user
+      operationId: auth
+      consumes:
+        - application/json
+      parameters:
+        - name: auth
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Credentials'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/Token'
+
+
+  /publicKey:
+    get:
+      description: get the public key
+      operationId: getPublicKey
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: success
+          schema:
+            $ref: '#/definitions/PublicKey'
 
 
 definitions:
@@ -114,3 +140,35 @@ definitions:
         - email
         - password
 
+  Credentials:
+    type: object
+    properties:
+      identifier:
+        type: string
+        description: 'username or email'
+      password:
+        type: string
+    required:
+        - identifier
+        - password
+
+  PublicKey:
+    type: object
+    properties:
+      key:
+        type: string
+        description: "public key"
+      dateCreation:
+        type: string
+        format: date
+        description: "date of creation"
+      dateExpiration:
+        type: string
+        format: date
+        description: "date of expiration"
+
+  Token:
+      type: object
+      properties:
+        token:
+          type: string
