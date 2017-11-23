@@ -210,9 +210,9 @@ public class UsersSteps {
 
     @Given("^a username (\\w+) with password (\\w+)$")
     public void aUsernameTestWithPasswordTest(String username, String password) throws Throwable {
-        credentials = new Credentials();
-        credentials.setIdentifier(username);
-        credentials.setPassword(password);
+        cred = new Credentials();
+        cred.setIdentifier(username);
+        cred.setPassword(password);
     }
 
     @When("^I POST the credentials to the /auth endpoint$")
