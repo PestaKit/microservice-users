@@ -19,6 +19,7 @@ import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
+import java.security.spec.X509EncodedKeySpec;
 import java.util.Date;
 
 public class SessionManager {
@@ -71,7 +72,10 @@ public class SessionManager {
         try {
             PemObject po = pr.readPemObject();
             KeyFactory kf = KeyFactory.getInstance("RSA");
-            key = kf.generatePrivate(new PKCS8EncodedKeySpec(po.getContent()));
+            if(po.getType().equals("RSA PRIVATE KEY"))
+                key = kf.generatePrivate(new PKCS8EncodedKeySpec(po.getContent()));
+            else
+                key = kf.generatePublic(new X509EncodedKeySpec(po.getContent()));
         }
         finally {
             pr.close();
