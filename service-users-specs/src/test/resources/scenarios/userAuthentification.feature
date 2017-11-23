@@ -26,7 +26,13 @@ Feature: user Authentification
     Then I receive a 404 status code
     Given I have it credential payload using username
     When I POST it credential to the /login endpoint
-    Then I receive a 422 status code
+    Then I receive a 401 status code
 
-
+  Scenario: cannot authenticate user with wrong password
+    Given I have a user named andre payload
+    When I POST it to the /users endpoint
+    Then I receive a 201 status code
+    Given I have it credential payload using wrongpassword
+    When I POST it credential to the /login endpoint
+    Then I receive a 401 status code
     
