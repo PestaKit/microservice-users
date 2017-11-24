@@ -1,5 +1,6 @@
 package io.pestakit.users.api.endpoints;
 
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import de.mkammerer.argon2.Argon2;
 import de.mkammerer.argon2.Argon2Factory;
 import io.pestakit.users.api.AuthApi;
@@ -16,7 +17,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.validation.Valid;
-import java.util.Date;
 
 @Controller
 public class AuthApiController implements AuthApi {
@@ -41,7 +41,17 @@ public class AuthApiController implements AuthApi {
 
         SessionManager sm = SessionManager.getInstance();
         SessionManager.SessionPayload sp = new SessionManager.SessionPayload(user.getId());
-        response.setToken(sm.create(sp, new Date(2017, 12, 13)));
+        String token = sm.create(sp);
+        response.setToken(token);
+
+        try {
+            String test = sm.verify(token);
+            System.out.println(test);
+        }
+        catch (JWTVerificationException e) {
+            e.printStackTrace();
+        }
+
 
         return ResponseEntity.ok(response);
     }

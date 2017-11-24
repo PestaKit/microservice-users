@@ -1,13 +1,14 @@
 package io.pestakit.users.configuration;
 
 import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import org.bouncycastle.util.io.pem.PemObject;
 import org.bouncycastle.util.io.pem.PemReader;
 import org.bouncycastle.util.io.pem.PemWriter;
+import org.joda.time.DateTime;
 import sun.security.rsa.RSAKeyPairGenerator;
 
 import java.io.*;
@@ -21,8 +22,10 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class SessionManager {
+    private final long DEFAULT_EXPIRATION = TimeUnit.DAYS.toMillis(7); // 1 week
     private final String PRIV_KEY_FILENAME = "private_key.pem";
     private final String PUB_KEY_FILENAME = "public_key.pem";
 
@@ -36,6 +39,8 @@ public class SessionManager {
     private RSAPublicKey publicKey;
     private String publicKeyPem;
 
+    private JWTVerifier verifier;
+
     private SessionManager() {
         try {
             privateKey = (RSAPrivateKey)readPubFile(PRIV_KEY_FILENAME);
@@ -46,6 +51,10 @@ public class SessionManager {
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
+
+        Algorithm algorithm = Algorithm.RSA256(publicKey, privateKey);
+        verifier = JWT.require(algorithm)
+                .build();
     }
 
     private void generateKeys() {
@@ -110,22 +119,28 @@ public class SessionManager {
         return publicKeyPem;
     }
 
+    public String create(SessionPayload payload) {
+        return create(payload, DateTime.now().plus(DEFAULT_EXPIRATION).toDate());
+    }
+
     public String create(SessionPayload payload, Date expiration) {
-        ObjectMapper mapper = new ObjectMapper();
         String token = null;
 
         try {
             Algorithm algorithm = Algorithm.RSA256(publicKey, privateKey);
             token = JWT.create()
-                    .withIssuer("user-api")
                     .withExpiresAt(expiration)
-                    .withSubject(mapper.writeValueAsString(payload))
+                    .withClaim("userID", payload.getUserId())
                     .sign(algorithm);
-        } catch (JWTCreationException | JsonProcessingException e){
+        } catch (JWTCreationException e){
             e.printStackTrace();
         }
 
         return token;
+    }
+
+    public String verify(String token) throws JWTVerificationException {
+        return verifier.verify(token).getExpiresAt().toString();
     }
 
     public static class SessionPayload {
