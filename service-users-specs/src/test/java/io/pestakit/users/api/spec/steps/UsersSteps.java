@@ -11,10 +11,8 @@ import io.pestakit.users.ApiResponse;
 import io.pestakit.users.api.DefaultApi;
 import io.pestakit.users.api.dto.Credentials;
 import io.pestakit.users.api.dto.Token;
-<<<<<<< HEAD
 import io.pestakit.users.api.model.PublicKey;
 import io.pestakit.users.api.dto.User;
->>>>>>> c72ebd1539b06ce1010d223e9dd41ee94ac8d24e
 import io.pestakit.users.api.spec.helpers.Environment;
 
 import java.util.Date;
