@@ -134,4 +134,14 @@ public class UserApiController implements UsersApi {
         user.setDisplayName(ue.getDisplayName());
         return user;
     }
+
+    private DisplayUser toDispayUser(User user) {
+        DisplayUser displayUser = new DisplayUser();
+        displayUser.setUsername(user.getUsername());
+        displayUser.setDisplayName(user.getDisplayName());
+        displayUser.setEmail(user.getEmail());
+        displayUser.setFirstName(user.getFirstName());
+        displayUser.setLastName(user.getLastName());
+        return displayUser;
+    }
 }
