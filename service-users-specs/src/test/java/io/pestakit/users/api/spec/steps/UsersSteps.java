@@ -12,6 +12,7 @@ import io.pestakit.users.api.DefaultApi;
 import io.pestakit.users.api.dto.Credentials;
 import io.pestakit.users.api.dto.User;
 import io.pestakit.users.api.dto.Token;
+import io.pestakit.users.api.model.PublicKey;
 import io.pestakit.users.api.spec.helpers.Environment;
 
 import java.util.Date;
@@ -30,6 +31,7 @@ public class UsersSteps {
 
     User user;
     Credentials cred;
+    PublicKey publicKey;
     long uid;
     List<User> users;
 
@@ -240,4 +242,29 @@ public class UsersSteps {
 
         assertNotNull(token);
     }
+
+    @When("^I GET the /publicKey endpoint$")
+    public void whenIGETThePublicKeyEndpoint() throws Throwable {
+        try {
+            lastApiResponse = api.getPublicKeyWithHttpInfo();
+            lastApiCallThrewException = false;
+            lastApiException = null;
+            lastStatusCode = lastApiResponse.getStatusCode();
+        } catch (ApiException e) {
+            lastApiCallThrewException = true;
+            lastApiResponse = null;
+            lastApiException = e;
+            lastStatusCode = lastApiException.getCode();
+        }
+    }
+
+    @And("^the response contains a public key$")
+    public void theResponseContainsAPublicKey() throws Throwable {
+        publicKey = (PublicKey) lastApiResponse.getData();
+
+        assertNotNull(publicKey);
+    }
 }
+
+
+
