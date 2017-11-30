@@ -95,7 +95,7 @@ public class UserApiController implements UsersApi {
                                              @PathVariable("id") Long id) {
         UserEntity userEntity = userRepository.findOne(id);
         if (userEntity == null) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(404).build();
         }
         User user = toUser(userEntity);
 
@@ -133,5 +133,15 @@ public class UserApiController implements UsersApi {
         user.setLastName(ue.getLastName());
         user.setDisplayName(ue.getDisplayName());
         return user;
+    }
+
+    private DisplayUser toDispayUser(User user) {
+        DisplayUser displayUser = new DisplayUser();
+        displayUser.setUsername(user.getUsername());
+        displayUser.setDisplayName(user.getDisplayName());
+        displayUser.setEmail(user.getEmail());
+        displayUser.setFirstName(user.getFirstName());
+        displayUser.setLastName(user.getLastName());
+        return displayUser;
     }
 }

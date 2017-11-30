@@ -139,12 +139,12 @@ paths:
       description: get the public key
       operationId: getPublicKey
       produces:
-        - application/json
+        - text/plain
       responses:
         '200':
           description: success
           schema:
-            $ref: '#/definitions/PublicKey'
+            type: string
 
 
 definitions:
@@ -206,7 +206,6 @@ definitions:
        displayName:
          type: string
 
-
   Credentials:
     type: object
     properties:
@@ -218,21 +217,6 @@ definitions:
     required:
         - identifier
         - password
-
-  PublicKey:
-    type: object
-    properties:
-      key:
-        type: string
-        description: "public key"
-      dateCreation:
-        type: string
-        format: date
-        description: "date of creation"
-      dateExpiration:
-        type: string
-        format: date
-        description: "date of expiration"
 
   Token:
       type: object
