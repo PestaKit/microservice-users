@@ -61,6 +61,38 @@ paths:
           description: success
           schema:
             $ref: '#/definitions/User'
+    put:
+      summary: Updated user
+      description: This can only be done by the logged in user.
+      operationId: updateUser
+      consumes:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          type: integer
+          format: int64
+          required: true
+          description: user's id
+          schema:
+            type: integer
+        - in: body
+          name: body
+          description: The user you want update with.
+          required: true
+          schema:
+           $ref: '#/definitions/NewUser'
+      produces:
+        - application/json
+      responses:
+        200:
+          description: The user has been successfully updated.
+          schema:
+            $ref: '#/definitions/User'
+        400:
+          description: Invalid user supplied
+        404:
+          description: User not found
 
   /users/get:
     get:
@@ -139,6 +171,41 @@ definitions:
         - username
         - email
         - password
+  NewUser:
+    type: object
+    properties:
+      email:
+        type: string
+        pattern: '^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
+      password:
+        type: string
+        minLength: 6
+      firstName:
+        type: string
+      lastName:
+        type: string
+      displayName:
+        type: string
+      required:
+        - email
+        - password
+  DisplayUser:
+     type: object
+     properties:
+       username:
+         type: string
+         minLength: 4
+         pattern: '^[a-zA-Z0-9._-]+$'
+       email:
+         type: string
+         pattern: '^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
+       firstName:
+         type: string
+       lastName:
+         type: string
+       displayName:
+         type: string
+
 
   Credentials:
     type: object

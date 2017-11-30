@@ -1,6 +1,8 @@
 package io.pestakit.users.api.endpoints;
 
 import io.pestakit.users.api.UsersApi;
+import io.pestakit.users.api.model.DisplayUser;
+import io.pestakit.users.api.model.NewUser;
 import io.pestakit.users.api.model.User;
 import io.pestakit.users.entities.UserEntity;
 import io.pestakit.users.repositories.UserRepository;
@@ -58,6 +60,34 @@ public class UserApiController implements UsersApi {
         }
 
         return ResponseEntity.ok(users);
+    }
+
+    @Override
+    public ResponseEntity<User> updateUser(@ApiParam(value = "user's id",required=true )
+                                               @PathVariable("id") Long id,  @Valid @RequestBody NewUser body) {
+        UserEntity userEntity = userRepository.findOne(id);
+        if (userEntity == null) {
+            return ResponseEntity.notFound().build();
+        }
+        if (body.getDisplayName() != null && !body.getDisplayName().isEmpty()){
+            userEntity.setDisplayName(body.getDisplayName());
+        }
+        if (body.getEmail() != null && !body.getEmail().isEmpty()) {
+            userEntity.setEmail(body.getEmail());
+        }
+        if (body.getFirstName() != null && !body.getFirstName().isEmpty() ) {
+            userEntity.setFirstName(body.getFirstName());
+        }
+        if (body.getLastName() != null && !body.getLastName().isEmpty()){
+            userEntity.setLastName(body.getLastName());
+        }
+        if(body.getPassword() != null && !body.getPassword().isEmpty()) {
+            userEntity.setPassword(body.getPassword());
+        }
+        userRepository.save(userEntity);
+        User user = toUser(userEntity);
+
+        return ResponseEntity.ok(user);
     }
 
     @Override
