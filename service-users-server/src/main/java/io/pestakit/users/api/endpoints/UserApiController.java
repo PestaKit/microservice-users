@@ -95,7 +95,7 @@ public class UserApiController implements UsersApi {
                                              @PathVariable("id") Long id) {
         UserEntity userEntity = userRepository.findOne(id);
         if (userEntity == null) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(404).build();
         }
         User user = toUser(userEntity);
 

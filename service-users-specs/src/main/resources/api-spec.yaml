@@ -206,9 +206,6 @@ definitions:
        displayName:
          type: string
 
-
-
-
   Credentials:
     type: object
     properties:

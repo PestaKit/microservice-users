@@ -10,8 +10,8 @@ import io.pestakit.users.ApiException;
 import io.pestakit.users.ApiResponse;
 import io.pestakit.users.api.DefaultApi;
 import io.pestakit.users.api.dto.Credentials;
-import io.pestakit.users.api.dto.User;
 import io.pestakit.users.api.dto.Token;
+import io.pestakit.users.api.dto.User;
 import io.pestakit.users.api.spec.helpers.Environment;
 
 import java.util.Date;
@@ -206,7 +206,7 @@ public class UsersSteps {
             cred.setPassword(user.getPassword());
 
     }
-    
+
         /* LOGIN */
 
     @Given("^a username (\\w+) with password (\\w+)$")
