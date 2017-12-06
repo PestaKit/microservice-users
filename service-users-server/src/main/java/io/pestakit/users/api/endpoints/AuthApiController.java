@@ -52,7 +52,6 @@ public class AuthApiController implements AuthApi {
             e.printStackTrace();
         }
 
-
         return ResponseEntity.ok(response);
     }
 }

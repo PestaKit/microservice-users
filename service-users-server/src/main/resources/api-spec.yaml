@@ -48,8 +48,7 @@ paths:
       parameters:
         - name: id
           in: path
-          type: integer
-          format: int64
+          type: string
           required: true
           description: user's id
           schema:
@@ -70,8 +69,7 @@ paths:
       parameters:
         - name: id
           in: path
-          type: integer
-          format: int64
+          type: string
           required: true
           description: user's id
           schema:
@@ -94,24 +92,6 @@ paths:
         404:
           description: User not found
 
-  /users/get:
-    get:
-      description: get a specific User with his username
-      operationId: getUser
-      parameters:
-        - name: username
-          in: query
-          required: true
-          description: user's username
-          schema:
-            type: string
-      produces:
-        - application/json
-      responses:
-        '200':
-          description: success
-          schema:
-            $ref: '#/definitions/User'
 
   /auth:
     post:
@@ -151,6 +131,9 @@ definitions:
   User:
     type: object
     properties:
+      id:
+        type: string
+        format: uuid
       username:
         type: string
         minLength: 4

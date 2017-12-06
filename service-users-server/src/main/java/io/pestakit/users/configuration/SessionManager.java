@@ -22,6 +22,7 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Date;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 public class SessionManager {
@@ -130,7 +131,7 @@ public class SessionManager {
             Algorithm algorithm = Algorithm.RSA256(publicKey, privateKey);
             token = JWT.create()
                     .withExpiresAt(expiration)
-                    .withClaim("userID", payload.getUserId())
+                    .withClaim("userID", payload.getUserId().toString())
                     .sign(algorithm);
         } catch (JWTCreationException e){
             e.printStackTrace();
@@ -144,17 +145,17 @@ public class SessionManager {
     }
 
     public static class SessionPayload {
-        private long userId;
+        private UUID userId;
 
-        public SessionPayload(long userId) {
+        public SessionPayload(UUID userId) {
             this.userId = userId;
         }
 
-        public long getUserId() {
+        public UUID getUserId() {
             return userId;
         }
 
-        public void setUserId(long userId) {
+        public void setUserId(UUID userId) {
             this.userId = userId;
         }
     }

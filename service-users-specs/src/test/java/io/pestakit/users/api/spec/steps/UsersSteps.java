@@ -11,7 +11,6 @@ import io.pestakit.users.ApiResponse;
 import io.pestakit.users.api.DefaultApi;
 import io.pestakit.users.api.dto.Credentials;
 import io.pestakit.users.api.dto.Token;
-import io.pestakit.users.api.model.PublicKey;
 import io.pestakit.users.api.dto.User;
 import io.pestakit.users.api.spec.helpers.Environment;
 
@@ -31,7 +30,6 @@ public class UsersSteps {
 
     User user;
     Credentials cred;
-    PublicKey publicKey;
     long uid;
     List<User> users;
 
@@ -260,7 +258,7 @@ public class UsersSteps {
 
     @And("^the response contains a public key$")
     public void theResponseContainsAPublicKey() throws Throwable {
-        publicKey = (PublicKey) lastApiResponse.getData();
+        String publicKey = lastApiResponse.getData().toString();
 
         assertNotNull(publicKey);
     }

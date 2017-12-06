@@ -21,6 +21,7 @@ import javax.validation.constraints.NotNull;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 public class UserApiController implements UsersApi {
@@ -43,7 +44,6 @@ public class UserApiController implements UsersApi {
         //if all condition is plain we can now create the object
         UserEntity newUserEntity = toUserEntity(user);
         userRepository.save(newUserEntity);
-        Long id = newUserEntity.getId();
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/{id}")
@@ -63,25 +63,25 @@ public class UserApiController implements UsersApi {
     }
 
     @Override
-    public ResponseEntity<User> updateUser(@ApiParam(value = "user's id",required=true )
-                                               @PathVariable("id") Long id,  @Valid @RequestBody NewUser body) {
-        UserEntity userEntity = userRepository.findOne(id);
+    public ResponseEntity<User> updateUser(@ApiParam(value = "user's id", required = true)
+                                           @PathVariable("id") String id, @Valid @RequestBody NewUser body) {
+        UserEntity userEntity = userRepository.findById(UUID.fromString(id));
         if (userEntity == null) {
             return ResponseEntity.notFound().build();
         }
-        if (body.getDisplayName() != null && !body.getDisplayName().isEmpty()){
+        if (body.getDisplayName() != null && !body.getDisplayName().isEmpty()) {
             userEntity.setDisplayName(body.getDisplayName());
         }
         if (body.getEmail() != null && !body.getEmail().isEmpty()) {
             userEntity.setEmail(body.getEmail());
         }
-        if (body.getFirstName() != null && !body.getFirstName().isEmpty() ) {
+        if (body.getFirstName() != null && !body.getFirstName().isEmpty()) {
             userEntity.setFirstName(body.getFirstName());
         }
-        if (body.getLastName() != null && !body.getLastName().isEmpty()){
+        if (body.getLastName() != null && !body.getLastName().isEmpty()) {
             userEntity.setLastName(body.getLastName());
         }
-        if(body.getPassword() != null && !body.getPassword().isEmpty()) {
+        if (body.getPassword() != null && !body.getPassword().isEmpty()) {
             userEntity.setPassword(body.getPassword());
         }
         userRepository.save(userEntity);
@@ -90,25 +90,30 @@ public class UserApiController implements UsersApi {
         return ResponseEntity.ok(user);
     }
 
-    @Override
-     public ResponseEntity<User> getUser(@ApiParam(value = "user's id",required=true )
-                                             @PathVariable("id") Long id) {
-        UserEntity userEntity = userRepository.findOne(id);
-        if (userEntity == null) {
-            return ResponseEntity.status(404).build();
-        }
-        User user = toUser(userEntity);
+//     public ResponseEntity<User> getUser(@ApiParam(value = "user's id",required=true )
+//                                             @PathVariable("id") Long id) {
+//        UserEntity userEntity = userRepository.findOne(id);
+//        if (userEntity == null) {
+//            return ResponseEntity.status(404).build();
+//        }
+//        User user = toUser(userEntity);
+//
+//        return ResponseEntity.ok(user);
+//    }
 
-        return ResponseEntity.ok(user);
-    }
-
     @Override
-    public ResponseEntity<User> getUser( @NotNull @ApiParam(value = "user's username", required = true)
-                                  @RequestParam(value = "username", required = true) String username) {
+    public ResponseEntity<User> getUser(@NotNull @ApiParam(value = "user's username", required = true)
+                                        @RequestParam(value = "username", required = true) String username) {
         UserEntity userEntity = userRepository.findByUsernameIgnoreCase(username);
-        if (userEntity != null)  {
-                return ResponseEntity.ok(toUser(userEntity));
-            }
+        if (userEntity != null) {
+            return ResponseEntity.ok(toUser(userEntity));
+        }
+
+        userEntity = userRepository.findById(UUID.fromString(username));
+
+        if (userEntity != null) {
+            return ResponseEntity.ok(toUser(userEntity));
+        }
 
         return ResponseEntity.notFound().build();
     }
@@ -126,6 +131,8 @@ public class UserApiController implements UsersApi {
 
     private User toUser(UserEntity ue) {
         User user = new User();
+
+        user.setId(ue.getId());
         user.setUsername(ue.getUsername());
         user.setPassword(ue.getPassword());
         user.setEmail(ue.getEmail());
