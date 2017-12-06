@@ -169,6 +169,7 @@ public class UsersSteps {
             assert(argon.verify(getUser.getPassword(),user.getPassword()));
 
             user.setPassword(getUser.getPassword());
+            assertEquals(null,user.getId());
             user.setId(getUser.getId());
             assertEquals(user,getUser);
         }
