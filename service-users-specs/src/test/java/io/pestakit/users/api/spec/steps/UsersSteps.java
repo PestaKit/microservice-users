@@ -13,10 +13,12 @@ import io.pestakit.users.api.dto.Credentials;
 import io.pestakit.users.api.dto.Token;
 import io.pestakit.users.api.dto.User;
 import io.pestakit.users.api.spec.helpers.Environment;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -157,16 +159,17 @@ public class UsersSteps {
         if(locationList != null){
             String location = locationList.get(0);
             assertNotNull(location);
-            Pattern p = Pattern.compile(".*/api/users/(\\d+)$");
+            Pattern p = Pattern.compile(".*/api/users/(.+)$");
             Matcher m = p.matcher(location);
             assert (m.find());
 
-            long getId = Long.parseLong(m.group(1));
-            User getUser = api.getUser_0(getId);
-
+            String uuidString = m.group(1);
+            User getUser = api.getUser(uuidString);
             Argon2 argon = Argon2Factory.create();
             assert(argon.verify(getUser.getPassword(),user.getPassword()));
+
             user.setPassword(getUser.getPassword());
+            user.setId(getUser.getId());
             assertEquals(user,getUser);
         }
     }

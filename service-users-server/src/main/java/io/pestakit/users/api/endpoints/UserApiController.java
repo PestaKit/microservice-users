@@ -33,7 +33,8 @@ public class UserApiController implements UsersApi {
 
     @Override
     public ResponseEntity<Void> createUser(@ApiParam(value = "", required = true) @Valid @RequestBody User user) {
-
+        //it is not up to the user to choose the id
+        user.setId(null);
         //if the ressource already exist
         UserEntity userEntity = userRepository.findByUsernameIgnoreCase(user.getUsername());
         if (userEntity != null) {
@@ -102,17 +103,19 @@ public class UserApiController implements UsersApi {
 //    }
 
     @Override
-    public ResponseEntity<User> getUser(@NotNull @ApiParam(value = "user's username", required = true)
-                                        @RequestParam(value = "username", required = true) String username) {
-        UserEntity userEntity = userRepository.findByUsernameIgnoreCase(username);
+    public ResponseEntity<User> getUser(@ApiParam(value = "user's id",required=true ) @PathVariable("id") String id){
+        UserEntity userEntity = userRepository.findByUsernameIgnoreCase(id);
         if (userEntity != null) {
             return ResponseEntity.ok(toUser(userEntity));
         }
 
-        userEntity = userRepository.findById(UUID.fromString(username));
-
-        if (userEntity != null) {
-            return ResponseEntity.ok(toUser(userEntity));
+        try {
+            userEntity = userRepository.findById(UUID.fromString(id));
+            if (userEntity != null) {
+                return ResponseEntity.ok(toUser(userEntity));
+            }
+        } catch (IllegalArgumentException e){
+            //nothing to do here
         }
 
         return ResponseEntity.notFound().build();

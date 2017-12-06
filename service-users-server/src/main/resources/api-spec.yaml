@@ -52,7 +52,7 @@ paths:
           required: true
           description: user's id
           schema:
-            type: integer
+            type: string
       produces:
         - application/json
       responses:
@@ -91,6 +91,7 @@ paths:
           description: Invalid user supplied
         404:
           description: User not found
+
 
 
   /auth:
