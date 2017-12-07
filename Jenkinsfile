@@ -20,7 +20,8 @@
                		sh './wait-for-it.sh -h localhost -p 26257 -t 30'
                 }
                 dir (path: "./service-users-server/") {
-                sh 'mvn install spring-boot:start'
+	                sh 'mvn install'
+    	            sh 'mvn spring-boot:start'
                 }
            }
        }
