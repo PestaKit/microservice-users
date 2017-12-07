@@ -28,6 +28,9 @@
 
        stage('API tests') {
            steps {
+               dir (path: "./service-users-server") {
+               		sh 'mvn install'
+               }
                dir (path: "./topology/"){
                		sh './wait-for-it.sh -h localhost -p 8080 -t 30'
                }
