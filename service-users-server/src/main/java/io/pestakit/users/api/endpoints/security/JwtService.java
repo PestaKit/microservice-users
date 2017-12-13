@@ -137,7 +137,7 @@ public class JwtService {
     }
 
     public SessionPayload verify(String token) throws JWTVerificationException {
-        return new SessionPayload(verifier.verify(token).getClaim("userID").asLong());
+        return new SessionPayload(UUID.fromString(verifier.verify(token).getClaim("userID").asString()));
     }
 
     public static class SessionPayload {
