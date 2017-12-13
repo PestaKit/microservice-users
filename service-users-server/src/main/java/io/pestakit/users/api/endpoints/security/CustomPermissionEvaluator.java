@@ -5,6 +5,7 @@ import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.core.Authentication;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 public class CustomPermissionEvaluator implements PermissionEvaluator {
 
@@ -16,7 +17,7 @@ public class CustomPermissionEvaluator implements PermissionEvaluator {
         }
 
         if(permission.equals("OWNER")) {
-            return (long)param == ((JwtAuthenticatedProfile)auth).getProfile().getUserId();
+            return (UUID)param == ((JwtAuthenticatedProfile)auth).getProfile().getUserId();
         }
 
         return false;
