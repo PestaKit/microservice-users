@@ -2,9 +2,11 @@ package io.pestakit.users.entities;
 
 import de.mkammerer.argon2.Argon2;
 import de.mkammerer.argon2.Argon2Factory;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.UUID;
 
 /**
  * Created by Olivier Liechti on 26/07/17.
@@ -13,8 +15,10 @@ import java.io.Serializable;
 public class UserEntity implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+//    @Column(columnDefinition = "BINARY(16)")
+    private UUID id;
 
     @Column(nullable = false, unique = true)
     private String username;
@@ -27,7 +31,7 @@ public class UserEntity implements Serializable {
     private String displayName;
 
 
-    public long getId() {
+    public UUID getId() {
         return id;
     }
 

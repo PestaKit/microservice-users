@@ -1,6 +1,8 @@
 package io.pestakit.users.api.endpoints;
 
 import io.pestakit.users.api.UsersApi;
+import io.pestakit.users.api.model.DisplayUser;
+import io.pestakit.users.api.model.NewUser;
 import io.pestakit.users.api.model.User;
 import io.pestakit.users.entities.UserEntity;
 import io.pestakit.users.repositories.UserRepository;
@@ -19,6 +21,7 @@ import javax.validation.constraints.NotNull;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 public class UserApiController implements UsersApi {
@@ -30,7 +33,8 @@ public class UserApiController implements UsersApi {
 
     @Override
     public ResponseEntity<Void> createUser(@ApiParam(value = "", required = true) @Valid @RequestBody User user) {
-
+        //it is not up to the user to choose the id
+        user.setId(null);
         //if the ressource already exist
         UserEntity userEntity = userRepository.findByUsernameIgnoreCase(user.getUsername());
         if (userEntity != null) {
@@ -41,7 +45,6 @@ public class UserApiController implements UsersApi {
         //if all condition is plain we can now create the object
         UserEntity newUserEntity = toUserEntity(user);
         userRepository.save(newUserEntity);
-        Long id = newUserEntity.getId();
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/{id}")
@@ -61,24 +64,59 @@ public class UserApiController implements UsersApi {
     }
 
     @Override
-     public ResponseEntity<User> getUser(@ApiParam(value = "user's id",required=true )
-                                             @PathVariable("id") Long id) {
-        UserEntity userEntity = userRepository.findOne(id);
+    public ResponseEntity<User> updateUser(@ApiParam(value = "user's id", required = true)
+                                           @PathVariable("id") String id, @Valid @RequestBody NewUser body) {
+        UserEntity userEntity = userRepository.findById(UUID.fromString(id));
         if (userEntity == null) {
             return ResponseEntity.notFound().build();
         }
+        if (body.getDisplayName() != null && !body.getDisplayName().isEmpty()) {
+            userEntity.setDisplayName(body.getDisplayName());
+        }
+        if (body.getEmail() != null && !body.getEmail().isEmpty()) {
+            userEntity.setEmail(body.getEmail());
+        }
+        if (body.getFirstName() != null && !body.getFirstName().isEmpty()) {
+            userEntity.setFirstName(body.getFirstName());
+        }
+        if (body.getLastName() != null && !body.getLastName().isEmpty()) {
+            userEntity.setLastName(body.getLastName());
+        }
+        if (body.getPassword() != null && !body.getPassword().isEmpty()) {
+            userEntity.setPassword(body.getPassword());
+        }
+        userRepository.save(userEntity);
         User user = toUser(userEntity);
 
         return ResponseEntity.ok(user);
     }
 
+//     public ResponseEntity<User> getUser(@ApiParam(value = "user's id",required=true )
+//                                             @PathVariable("id") Long id) {
+//        UserEntity userEntity = userRepository.findOne(id);
+//        if (userEntity == null) {
+//            return ResponseEntity.status(404).build();
+//        }
+//        User user = toUser(userEntity);
+//
+//        return ResponseEntity.ok(user);
+//    }
+
     @Override
-    public ResponseEntity<User> getUser( @NotNull @ApiParam(value = "user's username", required = true)
-                                  @RequestParam(value = "username", required = true) String username) {
-        UserEntity userEntity = userRepository.findByUsernameIgnoreCase(username);
-        if (userEntity != null)  {
+    public ResponseEntity<User> getUser(@ApiParam(value = "user's id",required=true ) @PathVariable("id") String id){
+        UserEntity userEntity = userRepository.findByUsernameIgnoreCase(id);
+        if (userEntity != null) {
+            return ResponseEntity.ok(toUser(userEntity));
+        }
+
+        try {
+            userEntity = userRepository.findById(UUID.fromString(id));
+            if (userEntity != null) {
                 return ResponseEntity.ok(toUser(userEntity));
             }
+        } catch (IllegalArgumentException e){
+            //nothing to do here
+        }
 
         return ResponseEntity.notFound().build();
     }
@@ -96,6 +134,8 @@ public class UserApiController implements UsersApi {
 
     private User toUser(UserEntity ue) {
         User user = new User();
+
+        user.setId(ue.getId());
         user.setUsername(ue.getUsername());
         user.setPassword(ue.getPassword());
         user.setEmail(ue.getEmail());
@@ -103,5 +143,15 @@ public class UserApiController implements UsersApi {
         user.setLastName(ue.getLastName());
         user.setDisplayName(ue.getDisplayName());
         return user;
+    }
+
+    private DisplayUser toDispayUser(User user) {
+        DisplayUser displayUser = new DisplayUser();
+        displayUser.setUsername(user.getUsername());
+        displayUser.setDisplayName(user.getDisplayName());
+        displayUser.setEmail(user.getEmail());
+        displayUser.setFirstName(user.getFirstName());
+        displayUser.setLastName(user.getLastName());
+        return displayUser;
     }
 }
