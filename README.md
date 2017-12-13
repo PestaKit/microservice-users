@@ -29,12 +29,16 @@ To install the library add the following repository into your project `pom.xml`:
 </repository>
 ````
 
-and then the following dependency:
+and then the following dependencies:
 ```
 <dependency>
     <groupId>io.pestakit</groupId>
     <artifactId>users-security</artifactId>
     <version>0.1.0</version>
+</dependency>
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-security</artifactId>
 </dependency>
 ```
 
