@@ -10,6 +10,8 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -64,6 +66,8 @@ public class UserApiController implements UsersApi {
     }
 
     @Override
+    @Secured("IS_AUTHENTICATED")
+    @PreAuthorize("hasPermission(#id, 'OWNER')")
     public ResponseEntity<User> updateUser(@ApiParam(value = "user's id", required = true)
                                            @PathVariable("id") String id, @Valid @RequestBody NewUser body) {
         UserEntity userEntity = userRepository.findById(UUID.fromString(id));

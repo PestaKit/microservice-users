@@ -1,4 +1,4 @@
-package io.pestakit.users.configuration;
+package io.pestakit.users.api.endpoints.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
@@ -9,6 +9,7 @@ import org.bouncycastle.util.io.pem.PemObject;
 import org.bouncycastle.util.io.pem.PemReader;
 import org.bouncycastle.util.io.pem.PemWriter;
 import org.joda.time.DateTime;
+import org.springframework.stereotype.Component;
 import sun.security.rsa.RSAKeyPairGenerator;
 
 import java.io.*;
@@ -25,16 +26,11 @@ import java.util.Date;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-public class SessionManager {
+@Component
+public class JwtService {
     private final long DEFAULT_EXPIRATION = TimeUnit.DAYS.toMillis(7); // 1 week
     private final String PRIV_KEY_FILENAME = "private_key.pem";
     private final String PUB_KEY_FILENAME = "public_key.pem";
-
-    private static SessionManager ourInstance = new SessionManager();
-
-    public static SessionManager getInstance() {
-        return ourInstance;
-    }
 
     private RSAPrivateKey privateKey;
     private RSAPublicKey publicKey;
@@ -42,7 +38,7 @@ public class SessionManager {
 
     private JWTVerifier verifier;
 
-    private SessionManager() {
+    private JwtService() {
         try {
             privateKey = (RSAPrivateKey)readPubFile(PRIV_KEY_FILENAME);
             publicKey = (RSAPublicKey)readPubFile(PUB_KEY_FILENAME);
@@ -140,8 +136,8 @@ public class SessionManager {
         return token;
     }
 
-    public String verify(String token) throws JWTVerificationException {
-        return verifier.verify(token).getExpiresAt().toString();
+    public SessionPayload verify(String token) throws JWTVerificationException {
+        return new SessionPayload(verifier.verify(token).getClaim("userID").asLong());
     }
 
     public static class SessionPayload {

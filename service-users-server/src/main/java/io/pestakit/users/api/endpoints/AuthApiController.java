@@ -1,12 +1,11 @@
 package io.pestakit.users.api.endpoints;
 
-import com.auth0.jwt.exceptions.JWTVerificationException;
 import de.mkammerer.argon2.Argon2;
 import de.mkammerer.argon2.Argon2Factory;
 import io.pestakit.users.api.AuthApi;
+import io.pestakit.users.api.endpoints.security.JwtService;
 import io.pestakit.users.api.model.Credentials;
 import io.pestakit.users.api.model.Token;
-import io.pestakit.users.configuration.SessionManager;
 import io.pestakit.users.entities.UserEntity;
 import io.pestakit.users.repositories.UserRepository;
 import io.swagger.annotations.ApiParam;
@@ -23,6 +22,8 @@ public class AuthApiController implements AuthApi {
 
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    JwtService jwtService;
 
     @Override
     public ResponseEntity<Token> auth(@ApiParam(value = "", required = true) @Valid @RequestBody Credentials cred) {
@@ -39,18 +40,10 @@ public class AuthApiController implements AuthApi {
 
         Token response = new Token();
 
-        SessionManager sm = SessionManager.getInstance();
-        SessionManager.SessionPayload sp = new SessionManager.SessionPayload(user.getId());
-        String token = sm.create(sp);
+        JwtService.SessionPayload sp = new JwtService.SessionPayload(user.getId());
+        String token = jwtService.create(sp);
         response.setToken(token);
 
-        try {
-            String test = sm.verify(token);
-            System.out.println(test);
-        }
-        catch (JWTVerificationException e) {
-            e.printStackTrace();
-        }
 
         return ResponseEntity.ok(response);
     }

@@ -1,7 +1,7 @@
 package io.pestakit.users.api.endpoints;
 
 import io.pestakit.users.api.PublicKeyApi;
-import io.pestakit.users.configuration.SessionManager;
+import io.pestakit.users.api.endpoints.security.JwtService;
 import io.pestakit.users.repositories.PublicKeyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,11 +14,12 @@ public class PublicKeyApiController implements PublicKeyApi {
 
     @Autowired
     private PublicKeyRepository keyRepo;
+    @Autowired
+    JwtService jwtService;
 
     @Override
     public ResponseEntity<String> getPublicKey() {
-        SessionManager sm = SessionManager.getInstance();
-        String key = sm.getPublicKey();
+        String key = jwtService.getPublicKey();
         return ResponseEntity.ok(key);
     }
 
