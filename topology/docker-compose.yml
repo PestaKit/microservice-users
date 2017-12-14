@@ -26,6 +26,14 @@ services:
       - roachnet
     depends_on:
       - roach-one
+  users-image:
+      image: users-image
+      networks:
+        - roachnet
+      depends_on:
+        - init-data
+      ports:
+        - 8080:8080
 
 networks:
   roachnet:
