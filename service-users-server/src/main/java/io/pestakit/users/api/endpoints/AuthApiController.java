@@ -3,6 +3,7 @@ package io.pestakit.users.api.endpoints;
 import de.mkammerer.argon2.Argon2;
 import de.mkammerer.argon2.Argon2Factory;
 import io.pestakit.users.api.AuthApi;
+import io.pestakit.users.api.endpoints.security.JwtService;
 import io.pestakit.users.api.model.Credentials;
 import io.pestakit.users.api.model.Token;
 import io.pestakit.users.entities.UserEntity;
@@ -19,9 +20,10 @@ import javax.validation.Valid;
 @Controller
 public class AuthApiController implements AuthApi {
 
-
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    JwtService jwtService;
 
     @Override
     public ResponseEntity<Token> auth(@ApiParam(value = "", required = true) @Valid @RequestBody Credentials cred) {
@@ -37,7 +39,12 @@ public class AuthApiController implements AuthApi {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 
         Token response = new Token();
-        response.setToken(user.getUsername() + ":authenticated");
+
+        JwtService.SessionPayload sp = new JwtService.SessionPayload(user.getId());
+        String token = jwtService.create(sp);
+        response.setToken(token);
+
+
         return ResponseEntity.ok(response);
     }
 }
