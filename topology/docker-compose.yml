@@ -27,7 +27,7 @@ services:
     depends_on:
       - roach-one
   users-image:
-      image: users-image
+      image: pestakit/users
       networks:
         - roachnet
       depends_on:
