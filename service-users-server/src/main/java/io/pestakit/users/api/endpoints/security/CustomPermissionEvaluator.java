@@ -5,19 +5,17 @@ import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.core.Authentication;
 
 import java.io.Serializable;
-import java.util.UUID;
 
 public class CustomPermissionEvaluator implements PermissionEvaluator {
 
     @Override
     public boolean hasPermission(Authentication auth, Object param, Object permission) {
-        System.out.println("handled");
-        if (!(auth instanceof JwtAuthenticatedProfile) || !(param instanceof Long) || !(permission instanceof String)){
+        if (!(auth instanceof JwtAuthenticatedProfile) || !(param instanceof String) || !(permission instanceof String)){
             return false;
         }
 
         if(permission.equals("OWNER")) {
-            return (UUID)param == ((JwtAuthenticatedProfile)auth).getProfile().getUserId();
+            return ((String)param).equals(((UserProfile)auth.getDetails()).getUserId().toString());
         }
 
         return false;

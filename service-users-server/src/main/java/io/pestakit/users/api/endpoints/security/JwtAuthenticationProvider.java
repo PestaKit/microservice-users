@@ -24,7 +24,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         try {
-            JwtService.SessionPayload possibleProfile = jwtService.verify((String) authentication.getCredentials());
+            UserProfile possibleProfile = jwtService.verify((String) authentication.getCredentials());
             return new JwtAuthenticatedProfile(possibleProfile);
         } catch (Exception e) {
             throw new JwtAuthenticationException("Failed to verify token", e);
