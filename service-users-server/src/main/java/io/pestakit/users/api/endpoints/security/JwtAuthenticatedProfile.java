@@ -10,9 +10,9 @@ import java.util.Collections;
 
 public class JwtAuthenticatedProfile implements Authentication {
 
-    private final JwtService.SessionPayload profile;
+    private final UserProfile profile;
 
-    public JwtAuthenticatedProfile(JwtService.SessionPayload profile) {
+    public JwtAuthenticatedProfile(UserProfile profile) {
         this.profile = profile;
     }
 
@@ -28,7 +28,7 @@ public class JwtAuthenticatedProfile implements Authentication {
 
     @Override
     public Object getDetails() {
-        return null;
+        return profile;
     }
 
     @Override
@@ -49,9 +49,5 @@ public class JwtAuthenticatedProfile implements Authentication {
     @Override
     public String getName() {
         return String.valueOf(profile.getUserId());
-    }
-
-    public JwtService.SessionPayload getProfile() {
-        return profile;
     }
 }

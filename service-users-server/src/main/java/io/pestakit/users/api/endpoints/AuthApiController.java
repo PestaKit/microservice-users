@@ -4,6 +4,7 @@ import de.mkammerer.argon2.Argon2;
 import de.mkammerer.argon2.Argon2Factory;
 import io.pestakit.users.api.AuthApi;
 import io.pestakit.users.api.endpoints.security.JwtService;
+import io.pestakit.users.api.endpoints.security.UserProfile;
 import io.pestakit.users.api.model.Credentials;
 import io.pestakit.users.api.model.Token;
 import io.pestakit.users.entities.UserEntity;
@@ -40,8 +41,8 @@ public class AuthApiController implements AuthApi {
 
         Token response = new Token();
 
-        JwtService.SessionPayload sp = new JwtService.SessionPayload(user.getId());
-        String token = jwtService.create(sp);
+        UserProfile profile = new UserProfile(user.getId(), user.getUsername());
+        String token = jwtService.create(profile);
         response.setToken(token);
 
 

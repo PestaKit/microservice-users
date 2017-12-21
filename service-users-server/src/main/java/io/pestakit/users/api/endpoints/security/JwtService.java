@@ -5,6 +5,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import org.bouncycastle.util.io.pem.PemObject;
 import org.bouncycastle.util.io.pem.PemReader;
 import org.bouncycastle.util.io.pem.PemWriter;
@@ -116,18 +117,19 @@ public class JwtService {
         return publicKeyPem;
     }
 
-    public String create(SessionPayload payload) {
-        return create(payload, DateTime.now().plus(DEFAULT_EXPIRATION).toDate());
+    public String create(UserProfile profile) {
+        return create(profile, DateTime.now().plus(DEFAULT_EXPIRATION).toDate());
     }
 
-    public String create(SessionPayload payload, Date expiration) {
+    public String create(UserProfile profile, Date expiration) {
         String token = null;
 
         try {
             Algorithm algorithm = Algorithm.RSA256(publicKey, privateKey);
             token = JWT.create()
                     .withExpiresAt(expiration)
-                    .withClaim("userID", payload.getUserId().toString())
+                    .withClaim("userID", profile.getUserId().toString())
+                    .withClaim("username", profile.getUsername())
                     .sign(algorithm);
         } catch (JWTCreationException e){
             e.printStackTrace();
@@ -136,23 +138,8 @@ public class JwtService {
         return token;
     }
 
-    public SessionPayload verify(String token) throws JWTVerificationException {
-        return new SessionPayload(UUID.fromString(verifier.verify(token).getClaim("userID").asString()));
-    }
-
-    public static class SessionPayload {
-        private UUID userId;
-
-        public SessionPayload(UUID userId) {
-            this.userId = userId;
-        }
-
-        public UUID getUserId() {
-            return userId;
-        }
-
-        public void setUserId(UUID userId) {
-            this.userId = userId;
-        }
+    public UserProfile verify(String token) throws JWTVerificationException {
+        DecodedJWT decJwt = verifier.verify(token);
+        return new UserProfile(UUID.fromString(decJwt.getClaim("userID").asString()), decJwt.getClaim("username").asString());
     }
 }
