@@ -170,10 +170,13 @@ definitions:
         type: string
       displayName:
         type: string
+      isAdmin:
+        type: boolean
     required:
         - username
         - email
         - password
+
   NewUser:
     type: object
     properties:
@@ -189,9 +192,13 @@ definitions:
         type: string
       displayName:
         type: string
+      isAdmin:
+        type: boolean
       required:
+        - username
         - email
         - password
+
   DisplayUser:
      type: object
      properties:

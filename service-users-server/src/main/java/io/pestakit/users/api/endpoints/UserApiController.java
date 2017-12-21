@@ -133,6 +133,7 @@ public class UserApiController implements UsersApi {
         ue.setFirstName(user.getFirstName());
         ue.setLastName(user.getLastName());
         ue.setDisplayName(user.getDisplayName());
+        ue.setIsAdmin(user.getIsAdmin());
         return ue;
     }
 

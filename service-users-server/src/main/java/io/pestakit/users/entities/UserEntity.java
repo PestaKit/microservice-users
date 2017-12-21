@@ -29,6 +29,7 @@ public class UserEntity implements Serializable {
     private String firstName;
     private String lastName;
     private String displayName;
+    private boolean isAdmin;
 
 
     public UUID getId() {
@@ -85,5 +86,13 @@ public class UserEntity implements Serializable {
 
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
+    }
+
+    public boolean getIsAdmin() {
+        return isAdmin;
+    }
+
+    public void setIsAdmin(boolean isAdmin) {
+        this.isAdmin = isAdmin;
     }
 }
